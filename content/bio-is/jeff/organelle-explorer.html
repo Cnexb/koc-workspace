@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell Organelle Explorer</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Segoe UI", Inter, system-ui, sans-serif; color: #37352f; background: #fff; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.lead { margin: 0 0 18px; color: #787774; }
+  .split { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  svg { flex: 1 1 420px; min-width: 300px; border: 1px solid #e9e9e7; border-radius: 6px; background: #f6fbf8; }
+  .panel { flex: 1 1 250px; border: 1px solid #e9e9e7; border-radius: 6px; padding: 16px; background: #fbfbfa; }
+  .panel h2 { font-size: 17px; margin: 0 0 2px; }
+  .panel .fn { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #9b9a97; margin-bottom: 10px; }
+  .panel ul { margin: 0; padding-left: 18px; }
+  .panel li { margin-bottom: 5px; }
+  .hit { cursor: pointer; }
+  .hit:hover [data-shape] { stroke: #0d6b46; stroke-width: 3; }
+  .sel [data-shape] { stroke: #0d6b46; stroke-width: 3.5; }
+  .quiz { margin-top: 16px; border-top: 1px solid #e9e9e7; padding-top: 12px; }
+  .quiz b { display: block; margin-bottom: 6px; }
+  .quiz button { font: inherit; padding: 5px 10px; margin: 0 6px 6px 0; border: 1px solid #dcdbd8; border-radius: 6px; background: #fff; cursor: pointer; }
+  .quiz button:hover { background: #eef7f2; }
+  .quiz .msg { font-weight: 600; min-height: 22px; }
+  .ok { color: #1c6b5b; } .no { color: #a83f37; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Cell Organelle Explorer</h1>
+  <p class="lead">Click any labelled part of the animal cell to read its function, then try the quick check at the bottom.</p>
+
+  <div class="split">
+    <svg id="cell" viewBox="0 0 460 380" aria-label="Animal cell diagram">
+      <ellipse cx="230" cy="190" rx="205" ry="165" fill="#dff2e7" stroke="#1f9d55" stroke-width="3"/>
+
+      <g class="hit" data-key="membrane">
+        <ellipse data-shape cx="230" cy="190" rx="205" ry="165" fill="none" stroke="#1f9d55" stroke-width="3"/>
+        <text x="230" y="368" text-anchor="middle" font-size="13" fill="#0d6b46">cell membrane</text>
+      </g>
+
+      <g class="hit" data-key="nucleus">
+        <circle data-shape cx="205" cy="175" r="62" fill="#8fd3bf" stroke="#0d6b46" stroke-width="1.5"/>
+        <circle cx="215" cy="168" r="20" fill="#0d6b46" opacity=".55"/>
+        <text x="205" y="180" text-anchor="middle" font-size="13" font-weight="700" fill="#0b3d2a">nucleus</text>
+      </g>
+
+      <g class="hit" data-key="mitochondria">
+        <ellipse data-shape cx="352" cy="118" rx="46" ry="26" fill="#f6a8d8" stroke="#a83f37" stroke-width="1.5"/>
+        <path d="M312 118q14-14 22 0t22 0 22 0" fill="none" stroke="#a83f37" stroke-width="2"/>
+        <text x="352" y="160" text-anchor="middle" font-size="12" fill="#7a2c26">mitochondrion</text>
+      </g>
+
+      <g class="hit" data-key="ribosome">
+        <g data-shape>
+          <circle cx="120" cy="292" r="7" fill="#3b6fd4"/>
+          <circle cx="140" cy="302" r="7" fill="#3b6fd4"/>
+          <circle cx="103" cy="308" r="7" fill="#3b6fd4"/>
+        </g>
+        <text x="122" y="332" text-anchor="middle" font-size="12" fill="#26467f">ribosomes</text>
+      </g>
+
+      <g class="hit" data-key="er">
+        <path data-shape d="M258 258q34-22 66-4t62-2" fill="none" stroke="#d97706" stroke-width="7" stroke-linecap="round"/>
+        <text x="330" y="288" text-anchor="middle" font-size="12" fill="#8a4f06">endoplasmic reticulum</text>
+      </g>
+
+      <g class="hit" data-key="golgi">
+        <g data-shape stroke="#7c3aed" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M96 118q30-16 62 0"/>
+          <path d="M100 134q28-14 56 0"/>
+          <path d="M104 150q24-12 48 0"/>
+        </g>
+        <text x="128" y="98" text-anchor="middle" font-size="12" fill="#4c1d95">Golgi apparatus</text>
+      </g>
+
+      <g class="hit" data-key="vacuole">
+        <circle data-shape cx="300" cy="196" r="26" fill="#cfe6ff" stroke="#2b5c9b" stroke-width="1.5"/>
+        <text x="300" y="200" text-anchor="middle" font-size="11" fill="#1e3f8f">vacuole</text>
+      </g>
+    </svg>
+
+    <div class="panel">
+      <h2 id="oname">Pick an organelle</h2>
+      <div class="fn" id="ofn">7 parts to explore</div>
+      <ul id="opts"><li>Tap any coloured structure in the diagram.</li></ul>
+
+      <div class="quiz">
+        <b id="q"></b>
+        <div id="qopts"></div>
+        <div class="msg" id="qmsg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var DATA = {
+    membrane:     { name: 'Cell membrane', fn: 'boundary · transport', pts: ['Phospholipid bilayer with embedded proteins.', 'Partially permeable — controls what enters and leaves.', 'Site of diffusion, osmosis and active transport.'] },
+    nucleus:      { name: 'Nucleus', fn: 'control centre', pts: ['Holds DNA as chromosomes.', 'Nucleolus makes ribosome subunits.', 'Nuclear envelope has pores for mRNA to exit.'] },
+    mitochondria: { name: 'Mitochondrion', fn: 'aerobic respiration', pts: ['Makes ATP from glucose and oxygen.', 'Inner membrane folded into cristae for surface area.', 'Muscle and liver cells carry very many.'] },
+    ribosome:     { name: 'Ribosomes', fn: 'protein synthesis', pts: ['Reads mRNA and joins amino acids.', 'Free in cytoplasm or bound to rough ER.', 'Not membrane-bound.'] },
+    er:           { name: 'Endoplasmic reticulum', fn: 'transport network', pts: ['Rough ER (with ribosomes) processes proteins.', 'Smooth ER makes lipids and stores calcium.', 'Continuous with the nuclear envelope.'] },
+    golgi:        { name: 'Golgi apparatus', fn: 'modify · package', pts: ['Modifies proteins from the ER.', 'Packages them into vesicles.', 'Sends products to the membrane for secretion.'] },
+    vacuole:      { name: 'Vacuole', fn: 'storage', pts: ['Small and temporary in animal cells.', 'Stores water, food or waste.', 'Plant cells have one large permanent vacuole.'] }
+  };
+
+  var QUIZ = [
+    { q: 'Which organelle releases ATP during aerobic respiration?', a: 'mitochondria' },
+    { q: 'Where are proteins packaged into vesicles for secretion?', a: 'golgi' },
+    { q: 'Which structure controls what enters and leaves the cell?', a: 'membrane' },
+    { q: 'Which organelle joins amino acids into a polypeptide?', a: 'ribosome' }
+  ];
+  var qi = 0;
+
+  var groups = [].slice.call(document.querySelectorAll('.hit'));
+
+  function show(key) {
+    var d = DATA[key];
+    groups.forEach(function (g) { g.classList.toggle('sel', g.getAttribute('data-key') === key); });
+    document.getElementById('oname').textContent = d.name;
+    document.getElementById('ofn').textContent = d.fn;
+    document.getElementById('opts').innerHTML = d.pts.map(function (p) { return '<li>' + p + '</li>'; }).join('');
+  }
+
+  groups.forEach(function (g) {
+    g.addEventListener('click', function () { show(g.getAttribute('data-key')); });
+  });
+
+  function ask() {
+    var item = QUIZ[qi % QUIZ.length];
+    document.getElementById('q').textContent = 'Quick check: ' + item.q;
+    document.getElementById('qmsg').textContent = '';
+    var keys = Object.keys(DATA).sort(function () { return Math.random() - 0.5; }).slice(0, 3);
+    if (keys.indexOf(item.a) < 0) keys[0] = item.a;
+    keys.sort(function () { return Math.random() - 0.5; });
+    document.getElementById('qopts').innerHTML = keys.map(function (k) {
+      return '<button data-ans="' + k + '">' + DATA[k].name + '</button>';
+    }).join('');
+    [].slice.call(document.querySelectorAll('#qopts button')).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var msg = document.getElementById('qmsg');
+        if (b.getAttribute('data-ans') === item.a) {
+          msg.className = 'msg ok';
+          msg.textContent = 'Correct — next question loading…';
+          qi++;
+          setTimeout(ask, 900);
+        } else {
+          msg.className = 'msg no';
+          msg.textContent = 'Not quite. Read ' + DATA[item.a].name + ' in the diagram and try again.';
+        }
+      });
+    });
+  }
+
+  show('nucleus');
+  ask();
+})();
+</script>
+</body>
+</html>

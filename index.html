@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniPlus KOC Work Gallery</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<header class="topbar">
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <div class="topbar-actions">
+    <div class="search">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 10.3a5 5 0 1 0-1 1l3 3 1-1zM3 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z"/></svg>
+      <input id="search" type="search" placeholder="Search work, KOC, tag…" autocomplete="off">
+    </div>
+    <button class="btn" id="publish"></button>
+    <button class="btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+      <span data-theme-icon>Dark</span>
+    </button>
+  </div>
+</header>
+
+<main id="view" class="view" aria-live="polite"></main>
+
+<footer class="footer">
+  <span>UniPlus KOC Work Gallery</span>
+  <span class="dot">·</span>
+  <span id="footer-stats"></span>
+</footer>
+
+<!-- Detail overlay -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" hidden>
+  <div class="overlay-bar">
+    <div class="overlay-title">
+      <span class="overlay-icon" id="ov-icon"></span>
+      <div>
+        <div class="overlay-name" id="ov-name"></div>
+        <div class="overlay-sub" id="ov-sub"></div>
+      </div>
+    </div>
+    <div class="overlay-tools">
+      <a class="btn" id="ov-open" target="_blank" rel="noopener">Open file</a>
+      <button class="btn" id="ov-close" aria-label="Close">Close</button>
+    </div>
+  </div>
+  <div class="overlay-body">
+    <div class="overlay-stage" id="ov-stage"></div>
+    <aside class="overlay-side">
+      <div class="side-block">
+        <div class="side-label">Review status</div>
+        <div class="status-picker" id="ov-status"></div>
+      </div>
+      <div class="side-block">
+        <div class="side-label">Reviewer notes</div>
+        <textarea id="ov-notes" rows="6" placeholder="Feedback for the KOC…"></textarea>
+        <div class="side-hint" id="ov-saved">Saved on this computer only.</div>
+      </div>
+      <div class="side-block" id="ov-meta"></div>
+    </aside>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="assets/js/app.js"></script>
+<script src="data/roster.js"></script>
+<script src="data/state.js"></script>
+<script src="data/manifest.js"></script>
+<script>KOC.start();</script>
+</body>
+</html>

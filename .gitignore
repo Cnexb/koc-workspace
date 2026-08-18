@@ -1,0 +1,17 @@
+# OS / editor noise
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Exported review decisions are personal, not repo content
+koc-review-*.json
+
+# Working files KOCs should not commit
+*.psd
+*.ai
+*.tmp
+~$*

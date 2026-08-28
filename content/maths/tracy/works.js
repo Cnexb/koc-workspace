@@ -14,7 +14,7 @@ KOC.works('maths', 'tracy', [
       'Full S3 lesson hub with comics gallery styling, interactive tools, and classroom manga for JM24–JM28. ' +
       'Lesson cards still open the existing topics/* pages. JM24 adds a sci-notation walkthrough alongside the original lab; ' +
       'JM25–JM26 and JM28 include Bracket Labyrinth / inequalities / triangle-centres manga plus the Centre Quest pages. ' +
-      'Hosted copy: uniunipluskoc-blip.github.io/maths_s3/dashboard/s3.html#lessons'
+      'Hosted copies: unikoc5.github.io/maths_s3/dashboard/s3.html#lessons · uniunipluskoc-blip.github.io/maths_s3/dashboard/s3.html#lessons'
   },
   {
     id: 'probability-youmind-draft',

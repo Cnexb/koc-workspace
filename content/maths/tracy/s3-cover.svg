@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="S3 Mathematics Gallery">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d9ecf7"/>
+      <stop offset="55%" stop-color="#e8f0fa"/>
+      <stop offset="100%" stop-color="#dcefda"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <rect x="36" y="36" width="88" height="88" rx="18" fill="#3d7ea6"/>
+  <text x="80" y="98" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="34" font-weight="700">S3</text>
+  <text x="148" y="78" fill="#1a1f2e" font-family="Georgia, serif" font-size="34" font-weight="700">Mathematics</text>
+  <text x="148" y="112" fill="#5c6578" font-family="Arial, sans-serif" font-size="18">JM24JM35 · Gallery + Comics</text>
+  <text x="36" y="300" fill="#3d7ea6" font-family="Arial, sans-serif" font-size="16" font-weight="700">Tracy · Maths KOC</text>
+</svg>

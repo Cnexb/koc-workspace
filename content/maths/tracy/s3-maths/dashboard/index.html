@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uni+ Mathematics — Topic Dashboards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/chem-light-theme.css">
+  <style>
+    :root {
+      --surface: #ffffff;
+      --surface2: #f5efe6;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Hanken Grotesk", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    #gallery-view {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    #gallery-view::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 55vh;
+      background:
+        radial-gradient(ellipse at top left, rgba(56, 189, 248, 0.12), transparent 70%),
+        radial-gradient(ellipse at top right, rgba(167, 139, 250, 0.1), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #gallery-view > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hub-header {
+      padding: 28px 40px 8px;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hub-logo {
+      height: 44px;
+      width: auto;
+      flex: none;
+    }
+    .hub-header-text h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hub-header-text h1 .plus {
+      color: var(--accent);
+    }
+    .hub-toolbar {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 40px 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .view-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      margin-right: 4px;
+    }
+    .gallery-grid {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 40px 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      align-content: start;
+    }
+    .topic-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      min-height: 280px;
+      box-shadow: var(--shadow-soft);
+    }
+    .topic-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(79, 195, 247, 0.45);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+    .topic-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .card-cover {
+      width: 100%;
+      align-self: stretch;
+      height: 132px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex: none;
+    }
+    .card-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 35%, rgba(255, 255, 255, 0.35));
+      pointer-events: none;
+    }
+    .card-icon {
+      font-size: 48px;
+      line-height: 1;
+      opacity: 0.92;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+      z-index: 1;
+    }
+    .card-body {
+      width: 100%;
+      padding: 16px 18px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-body h2 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .card-desc {
+      margin: 0;
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.45;
+      flex: 1;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .card-tags span {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      color: var(--dim);
+    }
+
+    .cover-av { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #a7f3d0 100%); }
+    .cover-fz { background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 55%, #fde68a 100%); }
+    .cover-in { background: linear-gradient(135deg, #ede9fe 0%, #dbeafe 50%, #fef3c7 100%); }
+    .cover-pb { background: linear-gradient(135deg, #d1fae5 0%, #dbeafe 50%, #fde68a 100%); }
+    .cover-pc { background: linear-gradient(135deg, #f3e8ff 0%, #dbeafe 45%, #bbf7d0 100%); }
+
+    #viewer-view {
+      display: none;
+      flex-direction: column;
+      /* dvh tracks the real visible viewport on iPad Safari (100vh includes the
+         collapsed toolbar area, so the iframe bottom became unreachable) */
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+    #viewer-view.active { display: flex; }
+    #gallery-view.hidden { display: none; }
+
+    .viewer-bar {
+      flex: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      background: var(--nav-surface);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--line);
+    }
+    /* iPad: topic title + meta like desktop; All topics stays in the topic tab row */
+    html.tablet-touch #viewer-view.active .viewer-bar {
+      display: flex;
+      padding: 8px 16px;
+    }
+    html.tablet-touch #viewer-view.active .back-btn,
+    html.tablet-touch #viewer-view.active .open-link {
+      display: none;
+    }
+    html.tablet-touch #viewer-view.active .viewer-title-wrap {
+      flex: 1;
+      min-width: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+    html.tablet-touch #viewer-view.active .viewer-title {
+      font-size: 16px;
+    }
+    html.tablet-touch #viewer-view.active .viewer-meta {
+      display: block;
+      font-size: 13px;
+      text-align: center;
+      white-space: normal;
+    }
+    html.tablet-touch #viewer-view.active #topic-frame {
+      flex: 1;
+      min-height: 0;
+    }
+    .back-btn {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .viewer-title-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .viewer-title {
+      font-weight: 700;
+      font-size: 15px;
+      flex: none;
+    }
+    .viewer-meta {
+      font-size: 13px;
+      color: var(--dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .viewer-meta:empty { display: none; }
+    .open-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dim);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    .open-link:hover { color: var(--accent); border-color: var(--line); }
+    #topic-frame {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      border: 0;
+      background: var(--bg);
+    }
+
+    @media (max-width: 767px) {
+      .hub-header {
+        padding: 16px 16px 4px;
+        gap: 12px;
+      }
+      .hub-logo {
+        height: 36px;
+      }
+      .hub-header-text h1 {
+        font-size: 22px;
+      }
+      .hub-toolbar {
+        padding: 12px 16px 4px;
+      }
+      .gallery-grid {
+        padding: 8px 16px 32px;
+        gap: 14px;
+        grid-template-columns: 1fr;
+      }
+      .topic-card {
+        min-height: 0;
+        border-radius: 14px;
+      }
+      .card-cover {
+        width: 100%;
+        height: clamp(108px, 30vw, 128px);
+      }
+      .card-icon {
+        font-size: 40px;
+      }
+      .card-body {
+        padding: 12px 14px 14px;
+        gap: 6px;
+      }
+      .card-body h2 {
+        font-size: 16px;
+      }
+      .card-desc {
+        font-size: 12px;
+        line-height: 1.4;
+      }
+      .card-tags span {
+        font-size: 10px;
+        padding: 2px 8px;
+      }
+      .viewer-bar {
+        padding: 8px 12px;
+        gap: 8px;
+      }
+      .back-btn {
+        font-size: 13px;
+        padding: 7px 12px;
+      }
+      .viewer-title {
+        font-size: 14px;
+      }
+      .viewer-meta,
+      .open-link {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="gallery-view">
+    <header class="hub-header">
+      <img class="hub-logo" src="shared/uniplus-logo.png" alt="Uni+ logo">
+      <div class="hub-header-text">
+        <h1>Uni<span class="plus">+</span> Mathematics</h1>
+      </div>
+    </header>
+    <div class="hub-toolbar">
+      <span class="view-label">Gallery</span>
+    </div>
+    <div class="gallery-grid" id="gallery-grid" role="list"></div>
+  </div>
+
+  <div id="viewer-view" aria-hidden="true">
+    <div class="viewer-bar">
+      <button type="button" class="back-btn" id="back-btn" aria-label="Back to gallery">&#8592; All topics</button>
+      <div class="viewer-title-wrap">
+        <span class="viewer-title" id="viewer-title"></span>
+        <span class="viewer-meta" id="viewer-meta"></span>
+      </div>
+      <a class="open-link" id="open-link" href="#" target="_blank" rel="noopener">Open in new tab</a>
+    </div>
+    <iframe id="topic-frame" title="Topic dashboard" src="about:blank"></iframe>
+  </div>
+
+  <script defer src="shared/phone-compact.js?v=20260711-phone"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var TABLET_MAX_W = 1366;
+      function isTouchTabletDevice() {
+        if (navigator.maxTouchPoints < 1) return false;
+        var w = window.innerWidth;
+        if (w < 768 || w > TABLET_MAX_W) return false;
+        var ua = navigator.userAgent || "";
+        if (/iPad/i.test(ua)) return true;
+        if (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) return true;
+        if (window.matchMedia("(pointer: coarse)").matches) return true;
+        if (window.matchMedia("(hover: none)").matches) return true;
+        return false;
+      }
+      function applyTabletClass() {
+        document.documentElement.classList.toggle("tablet-touch", isTouchTabletDevice());
+      }
+      applyTabletClass();
+      window.addEventListener("resize", applyTabletClass);
+      window.addEventListener("orientationchange", function () { setTimeout(applyTabletClass, 120); });
+
+      var TOPICS = [
+        {
+          id: "area_volume",
+          title: "Area & Volume",
+          subtitle: "KOC S3 Math · Summer 2026 · L07–09 Area and Volume",
+          desc: "2D areas and 3D solids — formulas, interactive tool, and builder game.",
+          path: "topics/area_volume/index.html?v=20260730-split",
+          cover: "cover-av",
+          icon: "\u{1F4D0}",
+          tags: ["L07\u201309", "Comics", "Quiz", "Tools", "Game"],
+        },
+        {
+          id: "factorization",
+          title: "Factorization",
+          subtitle: "KOC S3 Math · Summer 2026 · L01–02 More about Factorization",
+          desc: "Identities, cross method, grouping — geometry proofs, slider lab, and Factor Blaster game.",
+          path: "topics/factorization/index.html?v=20260730-split",
+          cover: "cover-fz",
+          icon: "\u{1F9EE}",
+          tags: ["L01\u201302", "Identities", "Cross method", "Game"],
+        },
+        {
+          id: "inequality",
+          title: "Inequality",
+          subtitle: "KOC S3 Math · Summer 2026 · L03 Inequality",
+          desc: "Signs, number lines, and solving — sign-flip lab, match-up & Sign Flip Doors games, summary, and quiz.",
+          path: "topics/inequality/index.html?v=20260730-split",
+          cover: "cover-in",
+          icon: "\u{2264}",
+          tags: ["L03", "Number line", "Games", "Summary"],
+        },
+        {
+          id: "probability",
+          title: "Probability",
+          subtitle: "KOC S3 Math · Summer 2026 · L10–12 Probability",
+          desc: "Formula, tree diagrams, tabulation — card tool and probability games.",
+          path: "topics/probability/index.html?v=20260730-split",
+          cover: "cover-pb",
+          icon: "\u{1F3B4}",
+          tags: ["L10\u201312", "Tree", "Cards", "Game"],
+        },
+        {
+          id: "percentage",
+          title: "Percentages",
+          subtitle: "KOC S3 Math · Summer 2026 · L04–06 Percentages",
+          desc: "Change factor, interest, tax — interest explorer, RPG games, lesson summary.",
+          path: "topics/percentage/index.html?v=20260731-upload4",
+          cover: "cover-pc",
+          icon: "\u{0025}",
+          tags: ["L04\u201306", "Interest", "Game", "Worked"],
+        },
+      ];
+
+      var grid = document.getElementById("gallery-grid");
+      var galleryView = document.getElementById("gallery-view");
+      var viewerView = document.getElementById("viewer-view");
+      var frame = document.getElementById("topic-frame");
+      var viewerTitle = document.getElementById("viewer-title");
+      var viewerMeta = document.getElementById("viewer-meta");
+      var openLink = document.getElementById("open-link");
+      var backBtn = document.getElementById("back-btn");
+
+      function buildCard(t) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "topic-card";
+        btn.setAttribute("role", "listitem");
+        btn.dataset.id = t.id;
+        btn.innerHTML =
+          '<div class="card-cover ' + t.cover + '"><span class="card-icon" aria-hidden="true">' + t.icon + "</span></div>" +
+          '<div class="card-body">' +
+            "<h2>" + t.title + "</h2>" +
+            '<p class="card-desc">' + t.desc + "</p>" +
+            '<div class="card-tags">' + t.tags.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
+          "</div>";
+        btn.addEventListener("click", function () { openTopic(t.id); });
+        return btn;
+      }
+
+      function findTopic(id) {
+        for (var i = 0; i < TOPICS.length; i++) {
+          if (TOPICS[i].id === id) return TOPICS[i];
+        }
+        return null;
+      }
+
+      function topicSrc(t) {
+        var extra = location.search ? location.search.replace(/^\?/, "") : "";
+        if (!extra) return t.path;
+        return t.path + (t.path.indexOf("?") >= 0 ? "&" : "?") + extra;
+      }
+
+      function openTopic(id) {
+        var t = findTopic(id);
+        if (!t) return;
+        var src = topicSrc(t);
+        viewerTitle.textContent = t.title;
+        if (viewerMeta) viewerMeta.textContent = t.subtitle || "";
+        openLink.href = src;
+        frame.src = src;
+        galleryView.classList.add("hidden");
+        viewerView.classList.add("active");
+        viewerView.setAttribute("aria-hidden", "false");
+        if (history.replaceState) {
+          history.replaceState(null, "", "#" + id);
+        } else {
+          location.hash = id;
+        }
+      }
+
+      function closeViewer() {
+        frame.src = "about:blank";
+        galleryView.classList.remove("hidden");
+        viewerView.classList.remove("active");
+        viewerView.setAttribute("aria-hidden", "true");
+        if (history.replaceState) {
+          history.replaceState(null, "", location.pathname + location.search);
+        } else {
+          location.hash = "";
+        }
+      }
+
+      function isGalleryTopicHash(id) {
+        return !!(id && findTopic(id));
+      }
+
+      TOPICS.forEach(function (t) { grid.appendChild(buildCard(t)); });
+
+      backBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        closeViewer();
+      });
+      window.addEventListener("message", function (e) {
+        if (!e.data || e.data.type !== "uniplus:back-to-gallery") return;
+        if (viewerView.classList.contains("active")) closeViewer();
+      });
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && viewerView.classList.contains("active")) closeViewer();
+      });
+      // If a topic page navigates the iframe to s3.html (or elsewhere), pull back to gallery
+      frame.addEventListener("load", function () {
+        try {
+          var href = frame.contentWindow.location.href;
+          if (/\/s3\.html(\?|#|$)/i.test(href)) {
+            closeViewer();
+          }
+        } catch (err) {
+          /* cross-origin — ignore */
+        }
+      });
+      window.addEventListener("hashchange", function () {
+        var id = (location.hash || "").replace(/^#/, "");
+        if (isGalleryTopicHash(id)) openTopic(id);
+        else if (!id) closeViewer();
+      });
+
+      var initial = (location.hash || "").replace(/^#/, "");
+      if (isGalleryTopicHash(initial)) openTopic(initial);
+    })();
+  </script>
+  <script src="https://uni-education-elearning.pages.dev/tracker/uni-tracker.js?v=8" defer></script>
+<script>
+window.addEventListener('message', function(e) {
+  if (!e.data || e.data.type !== 'uniplus:session') return;
+  try { sessionStorage.setItem('uniplus_session', JSON.stringify(e.data)); } catch(_) {}
+});
+</script>
+</body>
+</html>

@@ -976,6 +976,17 @@ window.KOC = (function () {
     });
 
     window.addEventListener('hashchange', onHashChange);
+
+    window.addEventListener('message', function (e) {
+      if (!e.data || e.data.type !== 'jm-tools-height') return;
+      var frame = document.querySelector('#ov-stage iframe');
+      if (!frame) return;
+      var h = Math.max(420, Math.min(2800, Number(e.data.height) || 0));
+      if (h) {
+        frame.style.height = h + 'px';
+        frame.style.minHeight = h + 'px';
+      }
+    });
   }
 
   function loadDataFiles(done) {

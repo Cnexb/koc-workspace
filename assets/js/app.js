@@ -25,6 +25,7 @@ window.KOC = (function () {
     video:       { label: 'Video',       icon: '🎬' },
     interactive: { label: 'Interactive', icon: '🧩' },
     pdf:         { label: 'PDF',         icon: '📄' },
+    docx:        { label: 'Word',        icon: '📝' },
     link:        { label: 'Link',        icon: '🔗' }
   };
 
@@ -803,6 +804,25 @@ window.KOC = (function () {
     return 'No decision recorded yet.';
   }
 
+  function stageDocx(w) {
+    var src = w.src || '';
+    var abs = '';
+    try {
+      var a = document.createElement('a');
+      a.href = src;
+      abs = a.href;
+    } catch (e) { abs = src; }
+    var hosted = location.protocol === 'https:' &&
+      location.hostname !== 'localhost' && location.hostname !== '127.0.0.1';
+    if (!hosted) {
+      return '<div class="stage-msg"><span class="big">📝</span><strong>Word document</strong><br>' +
+        '<a class="btn" style="margin-top:12px" href="' + esc(src) + '" download>Download Word file</a>' +
+        '<br><br>A live preview appears once this is on the hosted gallery.</div>';
+    }
+    var view = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(abs);
+    return '<iframe src="' + esc(view) + '" title="' + esc(w.title) + '"></iframe>';
+  }
+
   function stageFor(w) {
     switch (w.type) {
       case 'image':
@@ -817,6 +837,8 @@ window.KOC = (function () {
       case 'interactive':
       case 'pdf':
         return '<iframe src="' + esc(w.src) + '" title="' + esc(w.title) + '"></iframe>';
+      case 'docx':
+        return stageDocx(w);
       default:
         return '<div class="stage-msg"><span class="big">🔗</span>' +
           'External submission.<br><a class="btn" style="margin-top:12px" href="' + esc(w.url || '#') +

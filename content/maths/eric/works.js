@@ -1,6 +1,18 @@
 /* Eric · Maths KOC — submissions. */
 KOC.works('maths', 'eric', [
   {
+    id: 'jm23-areas-volumes-ii-ans',
+    title: 'S2 JM23 (A) Areas and Volumes II — 2026 (ANS)',
+    type: 'docx',
+    chapter: 'S2 JM23',
+    submitted: '2026-08-28',
+    status: 'pending',
+    tags: ['Answers', 'Areas and Volumes', 'Word'],
+    cover: 'content/maths/eric/jm23-areas-volumes-ii-cover.svg',
+    src: 'content/maths/eric/s2-jm23-areas-volumes-ii-2026-ans.docx',
+    notes: 'Answer key for S2 JM23 (A) Areas and Volumes II, 2026. Original Word file uploaded as submitted.'
+  },
+  {
     id: 'quadratic-transformer',
     title: 'Quadratic Transformer',
     type: 'interactive',

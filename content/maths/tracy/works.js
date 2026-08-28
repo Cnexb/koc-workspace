@@ -9,12 +9,13 @@ KOC.works('maths', 'tracy', [
     status: 'pending',
     tags: ['Interactive', 'Comics', 'Gallery', 'JM24–JM35'],
     cover: 'content/maths/tracy/s3-cover.svg',
-    src: 'content/maths/tracy/s3-maths/dashboard/s3.html#lessons',
+    src: 'https://unikoc5.github.io/s3-maths/#lessons',
     notes:
       'Full S3 lesson hub with comics gallery styling, interactive tools, and classroom manga for JM24–JM28. ' +
       'Lesson cards still open the existing topics/* pages. JM24 adds a sci-notation walkthrough alongside the original lab; ' +
       'JM25–JM26 and JM28 include Bracket Labyrinth / inequalities / triangle-centres manga plus the Centre Quest pages. ' +
-      'Hosted copies: unikoc5.github.io/maths_s3/dashboard/s3.html#lessons · uniunipluskoc-blip.github.io/maths_s3/dashboard/s3.html#lessons'
+      'Primary hosted copy: unikoc5.github.io/s3-maths/ (opens lessons directly). ' +
+      'Embedded repo copy: content/maths/tracy/s3-maths/dashboard/'
   },
   {
     id: 'probability-youmind-draft',

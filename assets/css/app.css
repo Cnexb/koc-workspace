@@ -640,6 +640,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .overlay-stage iframe {
   width: 100%;
   height: 100%;
+  min-height: 70vh;
+  align-self: stretch;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: #fff;

@@ -49,15 +49,22 @@
     <div class="overlay-stage" id="ov-stage"></div>
     <aside class="overlay-side">
       <div class="side-block">
-        <div class="side-label">Review status</div>
-        <div class="status-picker" id="ov-status"></div>
+        <div class="side-label">Review link</div>
+        <div class="link-field">
+          <input id="ov-review-link" type="url" readonly aria-label="Review link">
+          <button class="btn" id="ov-copy-review" type="button">Copy</button>
+        </div>
+        <div class="side-hint">Direct link to this specific submission.</div>
       </div>
       <div class="side-block">
-        <div class="side-label">Reviewer notes</div>
-        <textarea id="ov-notes" rows="6" placeholder="Feedback for the KOC…"></textarea>
-        <div class="side-hint" id="ov-saved">Saved on this computer only.</div>
+        <div class="side-label">Notion task link</div>
+        <input id="ov-task-link" class="side-url-input" type="url"
+          placeholder="Paste the Notion task URL…" aria-label="Notion task link">
+        <div class="side-actions">
+          <a class="btn" id="ov-task-open" target="_blank" rel="noopener" hidden>Open task</a>
+        </div>
+        <div class="side-hint">Press Save in the top bar after adding or changing this link.</div>
       </div>
-      <div class="side-block" id="ov-meta"></div>
     </aside>
   </div>
 </div>

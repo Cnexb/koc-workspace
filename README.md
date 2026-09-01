@@ -1,6 +1,6 @@
 # UniPlus KOC Work Gallery
 
-A Notion-style gallery for reviewing KOC submissions. Four subject cards (Maths, Chem, Phy, Bio + IS) open into their KOCs, and each KOC opens into their finished work — pictures, videos and interactive tools.
+A Notion-style gallery for reviewing KOC submissions. The front page has one name card per KOC, and each card opens everything that person has claimed across Maths, Chem, Physics, Bio and IS — pictures, videos and interactive tools.
 
 No build step, no server, no dependencies. Open `index.html` in a browser and it works, whether that is a double-click from disk or a hosted URL.
 
@@ -17,21 +17,19 @@ Both show exactly the same gallery. The difference is only where your changes ca
 
 | | |
 |---|---|
-| Navigate | Gallery → subject → KOC → work |
+| Navigate | Gallery → KOC → work |
 | Search everything | type in the search box, or press `/` |
-| Filter one KOC | the All / Pending / Approved / Needs revision chips |
-| Set a status | open a work, pick a status in the right panel |
-| Leave feedback | type in **Reviewer notes** |
+| Share a review | open a work and copy its **Review link** |
+| Attach the task | paste its Notion URL into **Notion task link**, then Save |
 | Close a work | `Esc` |
-| Snapshot decisions | **Export review notes** → a JSON file to send someone |
 
-The status on a card is the KOC's own claim until you override it; your decision then wins. Each subject page also carries a **Team summary** table — per KOC, how many works they have submitted, how many you have signed off, how many are still open, and which tasks those are. "In progress" means anything not approved, whether it is waiting on you or was sent back.
+A KOC page keeps all of that person's work together even when the tasks cover several subjects. Each work page has its own direct review link and can store the matching Notion task URL.
 
 ## Communication boards
 
-There is an all-team board on the front page and one board per subject, above that subject's summary. Type a name once and it is remembered. `Ctrl + Enter` posts.
+There is an all-team board on the front page. Type a name once and it is remembered. `Ctrl + Enter` posts.
 
-Board messages and review decisions are the only things the dashboard itself writes, and they both live in `data/state.js`. Anything you have typed but not saved is marked **not saved yet** and counted in the **Save** button in the top bar.
+Board messages and saved Notion task links live in `data/state.js`. Anything you have typed but not saved is marked **not saved yet** and counted in the **Save** button in the top bar.
 
 ## Saving and getting it onto GitHub
 
@@ -55,9 +53,9 @@ KOC.works('bio-is', 'jeff', [
     id: 'chapter-2-comics',                                  // unique within your folder, url-safe
     title: 'Chapter 2 Comics',
     type: 'image',                                           // see the table below
+    subject: 'Bio',                                          // subject of this task
     chapter: 'Bio Ch. 2',
     submitted: '2026-08-20',                                 // YYYY-MM-DD
-    status: 'pending',                                       // pending | approved | revise
     tags: ['Comics', 'IG post'],
     cover: 'content/bio-is/jeff/chapter-2-cover.png',        // optional thumbnail
     src: 'content/bio-is/jeff/chapter-2-comics.png',
@@ -68,6 +66,8 @@ KOC.works('bio-is', 'jeff', [
 ```
 
 Paths are written from the repo root, not relative to your folder.
+
+`subject` belongs to the individual task, not to the KOC. This is what lets one KOC claim work from several subjects while keeping one name card. For older cards without this field, the gallery infers the task subject from `chapter`, then falls back to the folder's roster group.
 
 ### Work types
 
@@ -94,7 +94,7 @@ start-board.cmd          opens the gallery with saving switched on
 assets/css/app.css       styling
 assets/js/app.js         routing, gallery, viewer, boards, review state
 tools/serve.mjs          tiny local server, the only thing that can write to disk
-data/roster.js           the 4 subjects and their KOCs      (lead edits)
+data/roster.js           KOC names and administrative groups (lead edits)
 data/manifest.js         one line per KOC works file        (lead edits)
 data/state.js            board messages + review decisions  (dashboard writes)
 content/<subject>/<koc>/

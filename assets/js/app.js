@@ -25,7 +25,6 @@ window.KOC = (function () {
     video:       { label: 'Video',       icon: '🎬' },
     interactive: { label: 'Interactive', icon: '🧩' },
     pdf:         { label: 'PDF',         icon: '📄' },
-    docx:        { label: 'Word',        icon: '📝' },
     link:        { label: 'Link',        icon: '🔗' }
   };
 
@@ -98,8 +97,46 @@ window.KOC = (function () {
     return null;
   }
 
+  function allKocProfiles() {
+    var byId = {}, out = [];
+    subjects.forEach(function (s) {
+      s.kocs.forEach(function (k) {
+        var profile = byId[k.id];
+        if (!profile) {
+          profile = byId[k.id] = {
+            id: k.id,
+            name: k.name,
+            icon: k.icon,
+            leader: !!k.leader,
+            memberships: []
+          };
+          out.push(profile);
+        }
+        profile.leader = profile.leader || !!k.leader;
+        profile.memberships.push({ subject: s, koc: k });
+      });
+    });
+    return out;
+  }
+
+  function findKocProfile(id) {
+    var profiles = allKocProfiles();
+    for (var i = 0; i < profiles.length; i++) if (profiles[i].id === id) return profiles[i];
+    return null;
+  }
+
   function worksOf(subjectId, kocId) {
     return worksBySubjectKoc[subjectId + '/' + kocId] || [];
+  }
+
+  function worksOfKoc(kocId) {
+    var out = [];
+    Object.keys(worksBySubjectKoc).forEach(function (key) {
+      if (key.slice(key.lastIndexOf('/') + 1) === kocId) {
+        out = out.concat(worksBySubjectKoc[key]);
+      }
+    });
+    return out;
   }
 
   function worksOfSubject(subjectId) {
@@ -111,7 +148,31 @@ window.KOC = (function () {
 
   function allWorks() {
     var out = [];
-    subjects.forEach(function (s) { out = out.concat(worksOfSubject(s.id)); });
+    Object.keys(worksBySubjectKoc).forEach(function (key) {
+      out = out.concat(worksBySubjectKoc[key]);
+    });
+    return out;
+  }
+
+  function taskSubject(work) {
+    if (work.subject) return work.subject;
+    var chapter = String(work.chapter || '').trim();
+    var match = chapter.match(/^(.+?)(?:\s*[·|—]\s*|\s+(?:Ch(?:apter)?|Unit)\.?\s*\d)/i);
+    if (match && match[1]) return match[1].trim();
+    var source = findSubject(work.subjectId);
+    return source ? source.name : 'General';
+  }
+
+  function taskSubjects(list) {
+    var seen = {}, out = [];
+    list.forEach(function (work) {
+      var name = taskSubject(work);
+      var key = name.toLowerCase();
+      if (!seen[key]) {
+        seen[key] = true;
+        out.push(name);
+      }
+    });
     return out;
   }
 
@@ -154,6 +215,12 @@ window.KOC = (function () {
   function notesOf(work) {
     var r = decision(work);
     return (r && r.notes) || '';
+  }
+
+  function taskLinkOf(work) {
+    var r = decision(work);
+    if (r && Object.prototype.hasOwnProperty.call(r, 'taskUrl')) return r.taskUrl;
+    return work.taskUrl || '';
   }
 
   function setReview(work, patch) {
@@ -258,7 +325,9 @@ window.KOC = (function () {
     draft.removed.forEach(function (id) { if (isPublished(id)) n++; });
     Object.keys(review).forEach(function (k) {
       var mine = review[k], live = baseReviews[k] || {};
-      if ((mine.status || '') !== (live.status || '') || (mine.notes || '') !== (live.notes || '')) n++;
+      if ((mine.status || '') !== (live.status || '') ||
+          (mine.notes || '') !== (live.notes || '') ||
+          (mine.taskUrl || '') !== (live.taskUrl || '')) n++;
     });
     return n;
   }
@@ -397,13 +466,27 @@ window.KOC = (function () {
 
   /* ---------------- routing ---------------- */
 
-  var route = { subject: null, koc: null, work: null };
+  var route = { subject: null, koc: null, workSubject: null, work: null };
   var query = '';
 
   function parseHash() {
     var raw = (location.hash || '').replace(/^#\/?/, '');
     var parts = raw.split('/').filter(Boolean).map(decodeURIComponent);
-    return { subject: parts[0] || null, koc: parts[1] || null, work: parts[2] || null };
+    if (parts[0] === 'koc') {
+      return {
+        subject: null,
+        koc: parts[1] || null,
+        workSubject: parts[2] || null,
+        work: parts[3] || null
+      };
+    }
+    // Keep old #/subject/koc/work links working after the KOC-first redesign.
+    return {
+      subject: parts[0] || null,
+      koc: parts[1] || null,
+      workSubject: parts[0] || null,
+      work: parts[2] || null
+    };
   }
 
   function go(hash) {
@@ -419,32 +502,31 @@ window.KOC = (function () {
   /* ---------------- rendering ---------------- */
 
   function render() {
-    var subject = route.subject ? findSubject(route.subject) : null;
-    var koc = subject && route.koc ? findKoc(subject, route.koc) : null;
+    var koc = route.koc ? findKocProfile(route.koc) : null;
 
-    renderCrumbs(subject, koc);
+    renderCrumbs(koc);
 
     if (query) renderSearch();
-    else if (koc) renderKoc(subject, koc);
-    else if (subject) renderSubject(subject);
+    else if (koc) renderKoc(koc);
     else renderHome();
 
     restoreComposing();
     renderSaveButton();
 
     var work = null;
-    if (subject && koc && route.work) {
-      worksOf(subject.id, koc.id).forEach(function (w) { if (w.id === route.work) work = w; });
+    if (koc && route.work) {
+      worksOfKoc(koc.id).forEach(function (w) {
+        if (w.id === route.work && (!route.workSubject || w.subjectId === route.workSubject)) work = w;
+      });
     }
-    if (work) openOverlay(work, subject, koc);
+    if (work) openOverlay(work, findSubject(work.subjectId), koc);
     else closeOverlay(true);
 
     var stats = rollup(allWorks());
     el('footer-stats').textContent =
-      subjects.length + ' subjects · ' +
-      plural(subjects.reduce(function (n, s) { return n + s.kocs.length; }, 0), 'KOC') + ' · ' +
-      plural(stats.total, 'submission') + ' · ' +
-      stats.approved + ' approved, ' + stats.pending + ' pending, ' + stats.revise + ' to revise';
+      plural(allKocProfiles().length, 'KOC') + ' · ' +
+      plural(taskSubjects(allWorks()).length, 'task area') + ' · ' +
+      plural(stats.total, 'submission');
   }
 
   function renderSaveButton() {
@@ -455,16 +537,13 @@ window.KOC = (function () {
     btn.disabled = !n;
     btn.title = n
       ? (canSave ? 'Writes data/state.js in the repo' : 'Downloads data/state.js — run start-board.cmd to write it directly')
-      : 'Board messages and review decisions are all in data/state.js';
+      : 'Board messages and Notion task links are all in data/state.js';
   }
 
-  function renderCrumbs(subject, koc) {
+  function renderCrumbs(koc) {
     var items = [{ label: '🏛️ KOC Work Gallery', hash: '#/' }];
     if (query) items.push({ label: '🔍 Search “' + query + '”', hash: null });
-    else {
-      if (subject) items.push({ label: subject.icon + ' ' + subject.name, hash: '#/' + subject.id });
-      if (koc) items.push({ label: koc.icon + ' ' + koc.name, hash: '#/' + subject.id + '/' + koc.id });
-    }
+    else if (koc) items.push({ label: koc.icon + ' ' + koc.name, hash: '#/koc/' + koc.id });
     var html = items.map(function (it, i) {
       var last = i === items.length - 1;
       var inner = esc(it.label);
@@ -514,43 +593,37 @@ window.KOC = (function () {
     return '#' + v.join('');
   }
 
-  /* ----- level 1: subjects ----- */
+  /* ----- level 1: KOC name cards ----- */
 
   function renderHome() {
-    var cards = subjects.map(function (s) {
-      var list = worksOfSubject(s.id);
+    var cards = allKocProfiles().map(function (k) {
+      var list = worksOfKoc(k.id);
       var r = rollup(list);
-      var names = s.kocs.map(function (k) { return k.name; }).join(' · ');
-      return '<button class="card" data-hash="#/' + s.id + '">' +
-        '<div class="cover">' + fallbackCover(s.icon, s.name, s.accent) +
-          '<span class="count-pill">' + plural(s.kocs.length, 'KOC') + '</span>' +
-          '<span class="type-badge">' + esc(s.account) + '</span>' +
+      var latest = list.slice().sort(function (a, b) {
+        return String(b.submitted || '').localeCompare(String(a.submitted || ''));
+      })[0];
+      var accent = k.memberships[0] ? k.memberships[0].subject.accent : '#3b6fd4';
+
+      return '<button class="card" data-hash="#/koc/' + k.id + '">' +
+        '<div class="cover">' + fallbackCover(k.icon, k.name, accent) +
+          '<span class="count-pill">' + plural(r.total, 'work') + '</span>' +
         '</div>' +
         '<div class="card-body">' +
-          '<div class="card-title"><span>' + esc(s.name) + '</span></div>' +
-          '<div class="card-sub">' + esc(names) + '</div>' +
-          '<div class="props">' +
-            '<span class="tag">MT: ' + esc(s.lead) + '</span>' +
-            '<span class="tag blue">' + plural(r.total, 'submission') + '</span>' +
-            (r.pending ? '<span class="tag amber">' + r.pending + ' pending</span>' : '') +
-            (r.revise ? '<span class="tag red">' + r.revise + ' to revise</span>' : '') +
-          '</div>' +
-          progressBar(r) +
+          '<div class="card-title"><span class="emoji">' + esc(k.icon) + '</span><span>' + esc(k.name) +
+            (k.leader ? ' <span class="tag blue">KOC lead</span>' : '') + '</span></div>' +
+          '<div class="card-sub">' + (latest ? 'Latest: ' + esc(latest.title) : 'No submissions yet') + '</div>' +
         '</div>' +
       '</button>';
     }).join('');
 
     var all = rollup(allWorks());
     el('view').innerHTML =
-      head('🏛️', 'KOC Work Gallery', 'Every submission from the KOC teams, grouped by subject. Open a subject to see its KOCs, then a KOC to review their work.', [
+      head('🏛️', 'KOC Work Gallery', 'One card per KOC. Open a name to review everything they have claimed across all subject areas.', [
         '<span>' + plural(all.total, 'submission') + '</span>',
-        '<span>' + all.pending + ' waiting on review</span>',
         '<span>Updated ' + prettyDate(latestDate()) + '</span>'
       ]) +
-      boardCard('all', 'All-team board', 'Seen by every subject team. Keep subject-specific notes on the subject boards.') +
-      '<div class="toolbar"><span class="section-label" style="margin:0">Subjects</span><span class="spacer"></span>' +
-        '<button class="btn" data-action="export">Export review notes</button>' +
-      '</div>' +
+      boardCard('all', 'All-team board', 'Seen by every KOC and reviewer.') +
+      '<div class="toolbar"><span class="section-label" style="margin:0">KOCs</span></div>' +
       '<div class="grid">' + cards + '</div>' +
       (missingFiles.length ? warnBox() : '');
   }
@@ -673,57 +746,40 @@ window.KOC = (function () {
 
   /* ----- level 3: one KOC's works ----- */
 
-  var kocFilter = 'all';
-
-  function renderKoc(s, k) {
-    var list = worksOf(s.id, k.id);
+  function renderKoc(k) {
+    var list = worksOfKoc(k.id);
     var r = rollup(list);
-    var shown = list.filter(function (w) { return kocFilter === 'all' || statusOf(w) === kocFilter; });
 
-    var filters = [['all', 'All ' + r.total], ['pending', 'Pending ' + r.pending],
-                   ['approved', 'Approved ' + r.approved], ['revise', 'Needs revision ' + r.revise]]
-      .map(function (f) {
-        return '<button class="chip" data-filter="' + f[0] + '" aria-pressed="' +
-          (kocFilter === f[0]) + '">' + esc(f[1]) + '</button>';
-      }).join('');
-
-    var body = shown.length
-      ? '<div class="grid">' + shown.map(function (w) { return workCard(w, s); }).join('') + '</div>'
-      : '<div class="empty"><strong>' + (list.length ? 'Nothing matches this filter' : 'No submissions yet') +
-        '</strong>' + (list.length ? 'Try “All”.' :
-          'Work appears here once ' + esc(k.name) + ' adds a card to <code>content/' + s.id + '/' + k.id + '/works.js</code>.') +
+    var body = list.length
+      ? '<div class="grid">' + list.map(function (w) {
+          return workCard(w, findSubject(w.subjectId));
+        }).join('') + '</div>'
+      : '<div class="empty"><strong>No submissions yet</strong>' +
+          'Work appears here once ' + esc(k.name) + ' adds a card to their <code>works.js</code> file.' +
         '</div>';
 
     el('view').innerHTML =
-      head(k.icon, k.name, (k.leader ? 'KOC lead · ' : 'KOC · ') + s.name + ' team, reporting to ' + s.lead + '.', [
-        '<span>' + plural(r.total, 'submission') + '</span>',
-        '<span>' + r.approved + ' approved</span>',
-        '<span>' + r.pending + ' pending</span>',
-        '<span>' + r.revise + ' to revise</span>'
-      ]) +
-      '<div class="toolbar">' + filters + '<span class="spacer"></span>' +
-        '<button class="btn" data-action="export">Export review notes</button>' +
-      '</div>' + body;
+      head(k.icon, k.name, 'All work claimed by this KOC, regardless of subject.', [
+        '<span>' + plural(r.total, 'submission') + '</span>'
+      ]) + body;
   }
 
   function workCard(w, s) {
     var t = TYPES[w.type];
-    var st = statusOf(w);
-    var note = notesOf(w);
+    var accent = s ? s.accent : '#3b6fd4';
     var cover = w.cover
       ? '<img src="' + esc(w.cover) + '" alt="" loading="lazy" onerror="KOC.coverFail(this)">'
-      : fallbackCover(t.icon, t.label, s.accent);
+      : fallbackCover(t.icon, t.label, accent);
 
-    return '<button class="card" data-hash="#/' + w.subjectId + '/' + w.kocId + '/' + w.id + '">' +
-      '<div class="cover" data-accent="' + esc(s.accent) + '" data-icon="' + esc(t.icon) + '">' + cover +
+    return '<button class="card" data-hash="#/koc/' + w.kocId + '/' + w.subjectId + '/' + w.id + '">' +
+      '<div class="cover" data-accent="' + esc(accent) + '" data-icon="' + esc(t.icon) + '">' + cover +
         '<span class="type-badge">' + esc(t.icon + ' ' + t.label) + '</span>' +
       '</div>' +
       '<div class="card-body">' +
         '<div class="card-title"><span>' + esc(w.title) + '</span></div>' +
         '<div class="card-sub">' + esc([w.chapter, prettyDate(w.submitted)].filter(Boolean).join(' · ')) + '</div>' +
-        '<div class="props">' + statusTag(st) +
+        '<div class="props"><span class="tag blue">Subject: ' + esc(taskSubject(w)) + '</span>' +
           w.tags.slice(0, 3).map(function (tg) { return '<span class="tag">' + esc(tg) + '</span>'; }).join('') +
-          (note ? '<span class="tag blue">💬 note</span>' : '') +
         '</div>' +
       '</div>' +
     '</button>';
@@ -734,16 +790,17 @@ window.KOC = (function () {
   function renderSearch() {
     var q = query.toLowerCase();
     var hits = allWorks().filter(function (w) {
-      var s = findSubject(w.subjectId), k = findKoc(s, w.kocId);
-      var hay = [w.title, w.chapter, w.notes, w.tags.join(' '), k && k.name, s && s.name, w.type].join(' ').toLowerCase();
+      var s = findSubject(w.subjectId), k = findKocProfile(w.kocId);
+      var hay = [w.title, w.chapter, w.notes, w.tags.join(' '), k && k.name,
+        taskSubject(w), s && s.name, w.type].join(' ').toLowerCase();
       return hay.indexOf(q) > -1;
     });
 
     var body = hits.length
       ? '<div class="grid">' + hits.map(function (w) {
-          var s = findSubject(w.subjectId), k = findKoc(s, w.kocId);
+          var s = findSubject(w.subjectId), k = findKocProfile(w.kocId);
           return workCard(w, s).replace('<div class="card-sub">',
-            '<div class="card-sub">' + esc(s.name + ' · ' + k.name) + ' — ');
+            '<div class="card-sub">' + esc(k.name + ' · ' + taskSubject(w)) + ' — ');
         }).join('') + '</div>'
       : '<div class="empty"><strong>No matches</strong>Nothing found for “' + esc(query) + '”.</div>';
 
@@ -761,7 +818,7 @@ window.KOC = (function () {
 
     el('ov-icon').textContent = t.icon;
     el('ov-name').textContent = w.title;
-    el('ov-sub').textContent = [s.name, k.name, w.chapter, prettyDate(w.submitted)].filter(Boolean).join(' · ');
+    el('ov-sub').textContent = [k.name, taskSubject(w), w.chapter, prettyDate(w.submitted)].filter(Boolean).join(' · ');
 
     var open = el('ov-open');
     var target = w.src || w.url || (w.srcs && w.srcs[0]);
@@ -770,57 +827,15 @@ window.KOC = (function () {
 
     el('ov-stage').innerHTML = stageFor(w);
 
-    el('ov-status').innerHTML = Object.keys(STATUSES).map(function (key) {
-      var st = STATUSES[key];
-      return '<button class="status-opt ' + st.cls + '" data-status="' + key + '" aria-pressed="' +
-        (statusOf(w) === key) + '"><span class="swatch"></span>' + st.label + '</button>';
-    }).join('');
+    el('ov-review-link').value = location.href;
 
-    el('ov-notes').value = notesOf(w);
-    el('ov-saved').textContent = reviewHint(w);
-
-    var rows = [
-      ['Type', t.label],
-      ['Subject', s.name],
-      ['KOC', k.name + (k.leader ? ' (lead)' : '')],
-      ['Chapter', w.chapter || '—'],
-      ['Submitted', prettyDate(w.submitted)],
-      ['KOC status', STATUSES[w.status].label],
-      ['Tags', w.tags.length ? w.tags.join(', ') : '—'],
-      ['File', target || '—']
-    ];
-    el('ov-meta').innerHTML = '<div class="side-label">Details</div><dl style="margin:0">' +
-      rows.map(function (r) { return '<div class="kv"><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') +
-      '</dl>' + (w.notes ? '<div class="side-label" style="margin-top:18px">KOC description</div><div>' + esc(w.notes) + '</div>' : '');
+    var taskUrl = taskLinkOf(w);
+    el('ov-task-link').value = taskUrl;
+    el('ov-task-open').href = taskUrl || '#';
+    el('ov-task-open').hidden = !taskUrl;
 
     el('overlay').hidden = false;
     document.body.style.overflow = 'hidden';
-  }
-
-  function reviewHint(w) {
-    if (review[w.key]) return 'Changed here — press Save in the top bar to put it in the repo.';
-    var live = baseReviews[w.key];
-    if (live) return 'In the repo · ' + prettyStamp(live.at) + (live.by ? ' by ' + live.by : '');
-    return 'No decision recorded yet.';
-  }
-
-  function stageDocx(w) {
-    var src = w.src || '';
-    var abs = '';
-    try {
-      var a = document.createElement('a');
-      a.href = src;
-      abs = a.href;
-    } catch (e) { abs = src; }
-    var hosted = location.protocol === 'https:' &&
-      location.hostname !== 'localhost' && location.hostname !== '127.0.0.1';
-    if (!hosted) {
-      return '<div class="stage-msg"><span class="big">📝</span><strong>Word document</strong><br>' +
-        '<a class="btn" style="margin-top:12px" href="' + esc(src) + '" download>Download Word file</a>' +
-        '<br><br>A live preview appears once this is on the hosted gallery.</div>';
-    }
-    var view = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(abs);
-    return '<iframe src="' + esc(view) + '" title="' + esc(w.title) + '"></iframe>';
   }
 
   function stageFor(w) {
@@ -837,8 +852,6 @@ window.KOC = (function () {
       case 'interactive':
       case 'pdf':
         return '<iframe src="' + esc(w.src) + '" title="' + esc(w.title) + '"></iframe>';
-      case 'docx':
-        return stageDocx(w);
       default:
         return '<div class="stage-msg"><span class="big">🔗</span>' +
           'External submission.<br><a class="btn" style="margin-top:12px" href="' + esc(w.url || '#') +
@@ -851,7 +864,7 @@ window.KOC = (function () {
     document.body.style.overflow = '';
     el('ov-stage').innerHTML = '';           // stop any playing video
     current = null;
-    if (!silent && route.work) go('#/' + route.subject + '/' + route.koc);
+    if (!silent && route.work) go('#/koc/' + route.koc);
   }
 
   function stageFail(node) {
@@ -909,9 +922,6 @@ window.KOC = (function () {
       var card = e.target.closest('[data-hash]');
       if (card) { go(card.getAttribute('data-hash')); return; }
 
-      var filter = e.target.closest('[data-filter]');
-      if (filter) { kocFilter = filter.getAttribute('data-filter'); render(); return; }
-
       var status = e.target.closest('[data-status]');
       if (status && current) {
         setReview(current, { status: status.getAttribute('data-status') });
@@ -928,6 +938,23 @@ window.KOC = (function () {
       if (e.target.closest('#publish')) { save(); return; }
       if (e.target.closest('[data-action="export"]')) { exportReview(); return; }
       if (e.target.closest('#ov-close')) { closeOverlay(); return; }
+      if (e.target.closest('#ov-copy-review')) {
+        var reviewLink = el('ov-review-link');
+        reviewLink.select();
+        reviewLink.setSelectionRange(0, reviewLink.value.length);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(reviewLink.value)
+            .then(function () { toast('Review link copied.'); })
+            .catch(function () {
+              document.execCommand('copy');
+              toast('Review link copied.');
+            });
+        } else {
+          document.execCommand('copy');
+          toast('Review link copied.');
+        }
+        return;
+      }
       if (e.target.closest('#theme-toggle')) {
         applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         return;
@@ -949,10 +976,12 @@ window.KOC = (function () {
       }
     });
 
-    el('ov-notes').addEventListener('input', function () {
+    el('ov-task-link').addEventListener('input', function () {
       if (!current) return;
-      setReview(current, { notes: this.value });
-      el('ov-saved').textContent = reviewHint(current);
+      var value = this.value.trim();
+      setReview(current, { taskUrl: value });
+      el('ov-task-open').href = value || '#';
+      el('ov-task-open').hidden = !value;
       renderSaveButton();
     });
 
@@ -976,17 +1005,6 @@ window.KOC = (function () {
     });
 
     window.addEventListener('hashchange', onHashChange);
-
-    window.addEventListener('message', function (e) {
-      if (!e.data || e.data.type !== 'jm-tools-height') return;
-      var frame = document.querySelector('#ov-stage iframe');
-      if (!frame) return;
-      var h = Math.max(420, Math.min(2800, Number(e.data.height) || 0));
-      if (h) {
-        frame.style.height = h + 'px';
-        frame.style.minHeight = h + 'px';
-      }
-    });
   }
 
   function loadDataFiles(done) {

@@ -640,8 +640,6 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .overlay-stage iframe {
   width: 100%;
   height: 100%;
-  min-height: 70vh;
-  align-self: stretch;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: #fff;
@@ -685,6 +683,33 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   color: var(--text-faint);
   margin-bottom: 8px;
 }
+
+.link-field {
+  display: flex;
+  gap: 7px;
+}
+
+.link-field input,
+.side-url-input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: 0;
+}
+
+.link-field input:focus,
+.side-url-input:focus {
+  border-color: #2b7ad1;
+  box-shadow: 0 0 0 2px rgba(43, 122, 209, .16);
+}
+
+.link-field input[readonly] { color: var(--text-soft); }
+.side-actions { display: flex; margin-top: 8px; }
+
 .status-picker { display: flex; flex-direction: column; gap: 6px; }
 .status-opt {
   display: flex;

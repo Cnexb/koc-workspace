@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pick Your Tool — HKDSE Topic 1 for S3</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="kicker">HKDSE Chemistry · Topic 01 · S3 lab</p>
+        <h1>Pick Your Tool</h1>
+        <p>Look at the kit first. Then choose the right apparatus for each job. Press 1–3 to answer.</p>
+      </div>
+      <div class="top-side">
+        <div class="top-actions">
+          <button type="button" id="lang-toggle" class="lang-toggle" aria-pressed="false">中</button>
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+        </div>
+        <div id="streak-hud"></div>
+        <nav class="nav" id="nav"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view active" id="kit"></section>
+    <section class="view" id="tree"></section>
+  </main>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

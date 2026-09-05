@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes Wall — HKDSE Topic 1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="kicker">HKDSE Chemistry · Topic 01 · S3 lab</p>
+        <h1>Notes Wall</h1>
+        <p>Open a chart to read it. Press Esc to close. Check yourself when you have looked at the set-ups.</p>
+      </div>
+      <div class="top-side">
+        <div class="top-actions">
+          <button type="button" id="lang-toggle" class="lang-toggle" aria-pressed="false">中</button>
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+        </div>
+        <nav class="nav" id="nav"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="wall"></section>
+    <section class="view" id="check"></section>
+  </main>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button type="button" class="lb-close" id="lb-close" aria-label="Close">Close</button>
+    <button type="button" class="lb-nav prev" id="lb-prev" aria-label="Previous">‹</button>
+    <button type="button" class="lb-nav next" id="lb-next" aria-label="Next">›</button>
+    <div class="lb-stage">
+      <div class="lb-zoom">
+        <button type="button" class="btn btn-ghost" id="lb-smaller" aria-label="Smaller">−</button>
+        <span id="lb-zoom-label">100%</span>
+        <button type="button" class="btn btn-ghost" id="lb-bigger" aria-label="Bigger">+</button>
+      </div>
+      <div class="lb-frame"><img id="lb-img" alt="" /></div>
+      <div class="lb-copy" id="lb-copy"></div>
+    </div>
+  </div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

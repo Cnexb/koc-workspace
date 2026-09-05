@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spot It — HKDSE Topic 1 for S3</title>
+  <link rel="stylesheet" href="styles.css?v=20" />
+</head>
+<body>
+  <div class="lab-bg" aria-hidden="true"></div>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="kicker">HKDSE Chemistry · Topic 01 · S3 lab</p>
+        <h1>Spot It</h1>
+        <p>Read the name, then tap the matching photo or diagram. Press 1–4 to choose an answer.</p>
+      </div>
+      <div class="top-side">
+        <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+        <div id="streak-hud"></div>
+        <nav class="nav" id="nav"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="find"></section>
+  </main>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="data.js?v=20"></script>
+  <script src="app.js?v=20"></script>
+</body>
+</html>

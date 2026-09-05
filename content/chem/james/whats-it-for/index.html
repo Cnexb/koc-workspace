@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What's It For — HKDSE Topic 1 for S3</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="kicker">HKDSE Chemistry · Topic 01 · S3 lab</p>
+        <h1>What's It For?</h1>
+        <p>Eight uses from Topic 01 Q.5. Look at the kit, then choose. Press 1–4.</p>
+      </div>
+      <div class="top-side">
+        <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+        <div id="streak-hud"></div>
+        <nav class="nav" id="nav"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view active" id="kit"></section>
+    <section class="view" id="job"></section>
+  </main>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemistry Atom Lab — Subatomic Structure</title>
+  <link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1 data-i18n="header.title">Chemistry Atom Lab</h1>
+        <p data-i18n="header.subtitle">Build atoms from the first 20 elements — full outer shell means stable</p>
+      </div>
+      <div class="lang-switch">
+        <button type="button" data-lang="en" class="lang-btn active">English</button>
+        <button type="button" data-lang="zh" class="lang-btn">中文</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" aria-label="Atom model">
+      <div class="panel-header">
+        <span data-i18n="panel.model">Atomic model</span>
+        <span class="hint" data-i18n="hint.pan">Drag to pan · Scroll wheel to zoom</span>
+      </div>
+      <div class="lab-scene" id="lab-scene">
+        <div class="species-badge" aria-live="polite">
+          <div class="nuclide" id="species-symbol" aria-label="Oxygen">
+            <span class="nuclide-mass" id="nuclide-mass">16</span>
+            <span class="nuclide-atomic" id="nuclide-atomic">8</span>
+            <span class="nuclide-letter" id="nuclide-letter">O</span>
+            <span class="nuclide-charge" id="nuclide-charge" hidden></span>
+          </div>
+        </div>
+        <div class="calc-badge" aria-live="polite">
+          <div class="badge-row" id="species-atomic">
+            <span class="badge-label" data-i18n="badge.atomicLabel">Atomic number (Z)</span>
+            <span class="badge-formula" id="species-atomic-formula">Z = protons = 8</span>
+          </div>
+          <div class="badge-row" id="species-mass">
+            <span class="badge-label" data-i18n="badge.massLabel">Mass number (A)</span>
+            <span class="badge-formula" id="species-mass-formula">A = protons + neutrons = 8 + 8 = 16</span>
+          </div>
+          <div class="arrangement" id="species-arrangement">2, 6</div>
+        </div>
+        <div class="status-badges">
+          <div id="stability-banner" class="status-badge stability-banner unstable" role="status" aria-live="polite">
+            <span class="stability-dot" aria-hidden="true"></span>
+            <span id="stability-text">Unstable</span>
+          </div>
+          <div id="charge-badge" class="status-badge charge-badge-ui" role="status" aria-live="polite">
+            <span id="charge-badge-text">Charge 0</span>
+          </div>
+        </div>
+        <div class="zoom-toolbar" role="group" aria-label="Zoom">
+          <button type="button" id="zoom-out-btn" class="zoom-btn" title="Zoom out" aria-label="Zoom out">−</button>
+          <button type="button" id="zoom-reset-btn" class="zoom-btn zoom-reset" title="Reset view" aria-label="Reset view">100%</button>
+          <button type="button" id="zoom-in-btn" class="zoom-btn" title="Zoom in" aria-label="Zoom in">+</button>
+        </div>
+        <div class="atom-viewport" id="atom-viewport">
+          <svg id="atom-svg" viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bohr model of the selected atom or ion"></svg>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="swatch proton"></span><span data-i18n="legend.proton">Proton (p) charge +</span></div>
+        <div class="legend-item"><span class="swatch neutron"></span><span data-i18n="legend.neutron">Neutron (n)</span></div>
+        <div class="legend-item"><span class="swatch electron"></span><span data-i18n="legend.electron">Electron (e) charge −</span></div>
+      </div>
+    </section>
+
+    <div class="side-stack">
+      <aside class="panel" aria-label="Controls">
+        <div class="panel-header">
+          <span data-i18n="panel.controls">Controls</span>
+        </div>
+        <div class="controls">
+          <div class="field">
+            <label data-i18n="label.ptable">Select element (first 20)</label>
+            <div id="periodic-table" class="periodic-table" role="listbox" aria-label="Periodic table"></div>
+          </div>
+
+          <div class="field">
+            <label data-i18n="label.builder">Adjust subatomic particles</label>
+            <p class="hint" data-i18n="hint.builder">Add or remove particles. Removed particles fly away and leave the model.</p>
+          </div>
+
+          <div class="builder-rows">
+            <div class="builder-row" data-type="p">
+              <div class="builder-label">
+                <span class="mini-swatch proton"></span>
+                <span data-i18n="count.protons">Protons</span>
+                <span class="charge-tag">+</span>
+              </div>
+              <div class="builder-btns">
+                <button type="button" class="btn btn-secondary btn-icon" data-action="dec" data-ptype="p" aria-label="Remove proton">−</button>
+                <span class="builder-count" id="count-p">8</span>
+                <button type="button" class="btn btn-secondary btn-icon" data-action="inc" data-ptype="p" aria-label="Add proton">+</button>
+              </div>
+            </div>
+            <div class="builder-row" data-type="n">
+              <div class="builder-label">
+                <span class="mini-swatch neutron"></span>
+                <span data-i18n="count.neutrons">Neutrons</span>
+                <span class="charge-tag muted" aria-hidden="true"></span>
+              </div>
+              <div class="builder-btns">
+                <button type="button" class="btn btn-secondary btn-icon" data-action="dec" data-ptype="n" aria-label="Remove neutron">−</button>
+                <span class="builder-count" id="count-n">8</span>
+                <button type="button" class="btn btn-secondary btn-icon" data-action="inc" data-ptype="n" aria-label="Add neutron">+</button>
+              </div>
+            </div>
+            <div class="builder-row" data-type="e">
+              <div class="builder-label">
+                <span class="mini-swatch electron"></span>
+                <span data-i18n="count.electrons">Electrons</span>
+                <span class="charge-tag">−</span>
+              </div>
+              <div class="builder-btns">
+                <button type="button" class="btn btn-secondary btn-icon" data-action="dec" data-ptype="e" aria-label="Remove electron">−</button>
+                <span class="builder-count" id="count-e">8</span>
+                <button type="button" class="btn btn-secondary btn-icon" data-action="inc" data-ptype="e" aria-label="Add electron">+</button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-secondary btn-block" id="reset-element-btn" data-i18n="btn.resetElement">Reset to element defaults</button>
+
+          <div class="process-log" id="process-log" data-i18n="process.idle">Pick an element, then add or remove particles. Stability needs a full outer shell.</div>
+        </div>
+      </aside>
+
+      <div
+        class="panel-splitter"
+        id="panel-splitter"
+        role="separator"
+        aria-orientation="horizontal"
+        aria-label="Resize Controls and Concepts panels"
+        tabindex="0"
+      >
+        <span class="panel-splitter-grip" aria-hidden="true"></span>
+      </div>
+
+      <aside class="panel concepts-panel" aria-label="Concepts">
+        <div class="panel-header">
+          <span data-i18n="panel.concepts">Concepts</span>
+        </div>
+        <div class="controls concepts-body">
+          <div class="info-box charge-steps" id="charge-steps">
+            <h3 data-i18n="info.chargeTitle">Charge calculation</h3>
+            <p class="concept-rule" data-i18n="charge.rule">Overall charge = total proton charge − total magnitude of electron charge.</p>
+            <ol class="steps-list">
+              <li id="step-proton-charge"></li>
+              <li id="step-electron-charge"></li>
+              <li id="step-net-charge"></li>
+            </ol>
+          </div>
+
+          <div class="info-box" id="stability-box">
+            <h3 data-i18n="info.stabilityTitle">Why this stability?</h3>
+            <p class="concept-rule" id="shell-limits" data-i18n="shell.limits">Atom requires an octet structure (for atoms with >1 filled electron shells) or a duplet structure (for atoms with 1 filled electron shell).</p>
+            <ol class="steps-list">
+              <li id="step-shell-config"></li>
+              <li id="step-outer-shell"></li>
+              <li id="step-octet-duplet"></li>
+            </ol>
+            <p class="stability-explain" id="stability-explain"></p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/elements.js"></script>
+  <script src="js/atom.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

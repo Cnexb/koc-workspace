@@ -1,5 +1,16 @@
-/* Felix · Chem KOC — submissions. */
+﻿/* Felix · Chem KOC — submissions. */
 KOC.works('chem', 'felix', [
+  {
+    id: 'atom-interactive-lab',
+    title: 'Atom Interactive Lab',
+    type: 'interactive',
+    subject: 'Chem',
+    chapter: 'Chem Ch. 2',
+    submitted: '2026-09-05',
+    tags: ['Interactive', 'Atomic structure', 'Shells'],
+    src: 'content/chem/felix/atom-interactive-lab/index.html',
+    notes: 'Build atoms from the first 20 elements; adjust protons, neutrons and electrons. Stability follows octet/duplet outer-shell rules.'
+  },
   {
     id: 'rate-of-reaction-cheatsheet',
     title: 'Rate of Reaction Cheatsheet',

@@ -29,14 +29,23 @@
           <p class="section-kicker" data-i18n="labTitle">Interactive separation laboratory</p>
           <h2 id="labHeading" data-i18n="labHeading">Choose a sample</h2>
         </div>
-        <div class="stage-tabs" role="tablist" aria-label="Samples">
-          <button type="button" class="stage-tab active" data-sample="ironSulphur" role="tab" aria-selected="true">
-            <span class="stage-num">1</span>
-            <span data-i18n="sampleIron">Iron + sulphur</span>
-          </button>
-          <button type="button" class="stage-tab" data-sample="sandWater" role="tab" aria-selected="false">
-            <span class="stage-num">2</span>
-            <span data-i18n="sampleSand">Sand + water</span>
+        <div class="sample-controls">
+          <div class="stage-tabs" role="tablist" aria-label="Samples">
+            <button type="button" class="stage-tab active" data-sample="ironSulphur" role="tab" aria-selected="true">
+              <span class="stage-num">1</span>
+              <span data-i18n="sampleIron">Iron + sulphur</span>
+            </button>
+            <button type="button" class="stage-tab" data-sample="sandWater" role="tab" aria-selected="false">
+              <span class="stage-num">2</span>
+              <span data-i18n="sampleSand">Sand + water</span>
+            </button>
+            <button type="button" class="stage-tab" data-sample="custom" role="tab" aria-selected="false">
+              <span class="stage-num">3</span>
+              <span data-i18n="sampleCustom">Custom pair</span>
+            </button>
+          </div>
+          <button type="button" class="stage-tab table-launch" id="openTableBtn">
+            <span data-i18n="chooseElements">Choose elements</span>
           </button>
         </div>
       </div>
@@ -69,10 +78,16 @@
 
         <div class="canvas-wrap bench-wrap" aria-label="Laboratory bench">
           <p class="demo-chip" id="demoStepChip" data-i18n="demoIdle">Idle</p>
+          <p class="temp-readout" id="tempReadout" hidden>25 °C</p>
+          <div class="particle-legend" id="particleLegend" hidden></div>
 
           <div class="bench bench-fe" data-sample="ironSulphur">
             <div class="watch-glass" aria-hidden="true">
               <div class="particles" id="feParticles"></div>
+              <div class="molten-pools" id="dishPools" aria-hidden="true">
+                <div class="molten-pool" data-pool="0"></div>
+                <div class="molten-pool" data-pool="1"></div>
+              </div>
               <div class="fes-lump"><span>FeS</span></div>
             </div>
             <div class="magnet" id="magnetArm" aria-hidden="true">
@@ -102,6 +117,7 @@
                   <div class="sediment-layer" id="sedimentLayer">
                     <div class="sand-grains" id="sandGrains"></div>
                     <div class="sand-bed"></div>
+                    <div class="molten-sand" id="moltenSand"></div>
                   </div>
                 </div>
               </div>
@@ -153,6 +169,7 @@
           <div class="method-group energy-group">
             <p class="method-label" data-i18n="chemicalMethods">Chemical / energy</p>
             <div class="method-buttons">
+              <button type="button" class="secondary-button" data-action="melt" data-i18n="melt">Molten state</button>
               <button type="button" class="primary-button" data-action="heat" data-i18n="heat">Strong heat</button>
             </div>
           </div>
@@ -164,5 +181,25 @@
       </section>
     </div>
   </main>
+
+  <dialog id="periodicDialog" class="periodic-dialog">
+    <form method="dialog" class="periodic-form">
+      <div class="periodic-head">
+        <div>
+          <p class="section-kicker" data-i18n="tableKicker">Periodic table</p>
+          <h2 data-i18n="tableTitle">Choose two elements</h2>
+          <p class="periodic-hint" data-i18n="tableHint">Select a pair to mix on the watch glass. Iron + sulphur still forms FeS with strong heat.</p>
+        </div>
+        <button type="submit" value="cancel" class="secondary-button" data-i18n="tableCancel">Cancel</button>
+      </div>
+      <div class="picked-row" aria-live="polite">
+        <span class="picked-chip" id="pickedA"><span data-i18n="tableSlotA">Element A</span><strong>—</strong></span>
+        <span class="picked-chip" id="pickedB"><span data-i18n="tableSlotB">Element B</span><strong>—</strong></span>
+        <button type="button" class="secondary-button" id="clearPicks" data-i18n="tableClear">Clear</button>
+        <button type="submit" value="apply" class="primary-button" id="applyPair" data-i18n="tableApply" disabled>Apply pair</button>
+      </div>
+      <div class="periodic-grid" id="periodicGrid" role="grid" aria-label="Periodic table"></div>
+    </form>
+  </dialog>
 </body>
 </html>

@@ -142,6 +142,13 @@ main {
   flex-wrap: wrap;
 }
 
+.sample-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .overview-main h2 {
   margin: 0;
   font-size: 1.25rem;
@@ -296,10 +303,10 @@ main {
   overflow: hidden;
 }
 
-.demo-chip {
+.demo-chip,
+.temp-readout {
   position: absolute;
   top: 10px;
-  left: 12px;
   z-index: 2;
   margin: 0;
   padding: 5px 10px;
@@ -311,6 +318,65 @@ main {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.demo-chip {
+  left: 12px;
+}
+
+.temp-readout {
+  right: 12px;
+  font-variant-numeric: tabular-nums;
+  text-transform: none;
+}
+
+.temp-readout[hidden] {
+  display: none;
+}
+
+.particle-legend {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.particle-legend[hidden] {
+  display: none;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(23, 36, 58, 0.12);
+  flex-shrink: 0;
+}
+
+.legend-row span {
+  color: var(--muted);
+}
+
+.legend-row strong {
+  color: var(--ink);
+  font-weight: 800;
 }
 
 .bench {
@@ -363,6 +429,58 @@ main {
 .particle.s {
   background: linear-gradient(180deg, #ffe27a, var(--sulphur));
   box-shadow: 0 1px 2px rgba(160, 110, 0, 0.2);
+}
+
+.molten-pools {
+  position: absolute;
+  inset: 28px 30px 34px;
+  pointer-events: none;
+}
+
+.molten-pool {
+  position: absolute;
+  width: 42%;
+  height: 38%;
+  border-radius: 46% 54% 48% 52%;
+  opacity: 0;
+  transform: scale(0.4);
+  filter: saturate(1.05);
+  box-shadow: inset 0 6px 12px rgba(255, 255, 255, 0.28);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.molten-pool[data-pool="0"] {
+  left: 8%;
+  top: 22%;
+}
+
+.molten-pool[data-pool="1"] {
+  right: 8%;
+  top: 30%;
+}
+
+.molten-pool.is-visible {
+  opacity: 0.92;
+  transform: scale(1);
+}
+
+.molten-sand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  border-radius: 10px 10px 12px 12px;
+  background: linear-gradient(180deg, rgba(232, 176, 86, 0.72), rgba(168, 110, 42, 0.88));
+  box-shadow: inset 0 8px 14px rgba(255, 236, 190, 0.28);
+  opacity: 0;
+  transition: height 0.7s ease, opacity 0.45s ease;
+  z-index: 3;
+}
+
+.molten-sand.is-visible {
+  height: 34%;
+  opacity: 1;
 }
 
 .fes-lump {
@@ -474,7 +592,8 @@ body[data-demo="magnet-lift"] .magnet {
   will-change: transform;
 }
 
-body[data-sample="ironSulphur"][data-phase="magnetSeparated"] .magnet {
+body[data-sample="ironSulphur"][data-phase="magnetSeparated"] .magnet,
+body[data-sample="custom"][data-phase="magnetSeparated"] .magnet {
   transform: translate(var(--magnet-lift-x), var(--magnet-lift-y));
 }
 
@@ -550,8 +669,8 @@ body[data-sample="sandWater"][data-phase="filtered"] .station-filter {
   display: flex;
 }
 
-body[data-demo="filter"] .station-decant,
-body[data-demo="filter-pour"] .station-decant,
+body[data-sample="sandWater"][data-demo="filter"] .station-decant,
+body[data-sample="sandWater"][data-demo="filter-pour"] .station-decant,
 body[data-sample="sandWater"][data-phase="filtered"] .station-decant {
   display: none;
 }
@@ -764,6 +883,15 @@ body[data-demo="filter-pour"] .lip-stream {
   opacity: 1;
 }
 
+body[data-sample="sandWater"][data-demo="filter-pour"] .source-beaker .sand-bed {
+  height: 28%;
+}
+
+body[data-sample="sandWater"][data-demo="filter-pour"] .source-beaker .sand-water {
+  height: 72%;
+  transition: none;
+}
+
 /* Decant: pour off clear water; sand bed stays */
 body[data-demo="pour"] .source-beaker .sand-water {
   background: linear-gradient(180deg, rgba(108, 183, 232, 0.5), rgba(108, 183, 232, 0.35));
@@ -774,33 +902,24 @@ body[data-demo="pour"] .poured-beaker .poured-water {
   transition: none;
 }
 
-/* Filter: empty source into funnel; residue + filtrate */
+/* Filter: JS drives the pour; final empty source is the filtered phase. */
 body[data-demo="filter"] .source-beaker .sand-water,
-body[data-demo="filter-pour"] .source-beaker .sand-water,
-body[data-demo="filter"] .source-beaker .sand-bed,
-body[data-demo="filter-pour"] .source-beaker .sand-bed {
+body[data-demo="filter"] .source-beaker .sand-bed {
   height: 0;
-  transition: height 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 body[data-demo="filter"] .residue-pile,
-body[data-demo="filter-pour"] .residue-pile,
 body[data-demo="filter"] .residue-callout,
 body[data-demo="filter"] .filtrate-callout {
   opacity: 1;
 }
 
-body[data-demo="filter"] .residue-pile,
-body[data-demo="filter-pour"] .residue-pile {
+body[data-demo="filter"] .residue-pile {
   height: 22px;
-  transition: height 0.95s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0.25s,
-    opacity 0.4s ease;
 }
 
-body[data-demo="filter"] .filtrate-beaker .filtrate-water,
-body[data-demo="filter-pour"] .filtrate-beaker .filtrate-water {
+body[data-demo="filter"] .filtrate-beaker .filtrate-water {
   height: 58%;
-  transition: height 1.45s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0.28s;
 }
 
 body.is-dripping .drip {
@@ -1064,8 +1183,165 @@ body[data-sample="sandWater"][data-phase="filtered"] .filtrate-callout {
 }
 
 body[data-demo="heat"] .particle.fe,
-body[data-demo="heat"] .particle.s {
+body[data-demo="heat"] .particle.s,
+body[data-demo="heat"] .particle {
   animation: coalesce 1.35s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+}
+
+body[data-demo="melt"] .particle {
+  animation: flattenMelt 1.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+}
+
+@keyframes flattenMelt {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; border-radius: 50%; }
+  70% { transform: translate(0, 10px) scale(1.15, 0.45); opacity: 0.55; }
+  100% { transform: translate(0, 16px) scale(1.4, 0.22); opacity: 0.08; }
+}
+
+body[data-phase="molten"] .particle {
+  opacity: 0;
+}
+
+body[data-phase="molten"] .fes-lump {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+body[data-sample="sandWater"][data-phase="molten"] .sand-grain,
+body[data-sample="sandWater"][data-phase="molten"] .sand-bed {
+  opacity: 0;
+}
+
+body[data-sample="sandWater"][data-phase="molten"] .source-beaker .sand-water {
+  height: 72%;
+}
+
+body[data-sample="sandWater"][data-phase="molten"] .station-decant,
+body[data-sample="sandWater"][data-phase="molten"] .station-filter {
+  display: none;
+}
+
+.stage-tab.table-launch {
+  background: #fff8ef;
+  border-color: #f0d3a0;
+}
+
+.periodic-dialog {
+  width: min(1120px, 96vw);
+  max-height: 92vh;
+  border: 0;
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 24px 48px rgba(20, 40, 80, 0.22);
+}
+
+.periodic-dialog::backdrop {
+  background: rgba(18, 36, 64, 0.46);
+}
+
+.periodic-form {
+  display: grid;
+  gap: 12px;
+}
+
+.periodic-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.periodic-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.periodic-hint {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  max-width: 46rem;
+}
+
+.picked-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.picked-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f2f6fb;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.picked-chip strong {
+  color: var(--ink);
+  font-size: 0.88rem;
+}
+
+.periodic-grid {
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  grid-template-rows: repeat(7, auto) 10px auto auto;
+  gap: 3px;
+  overflow: auto;
+  max-height: calc(92vh - 190px);
+  padding-bottom: 4px;
+}
+
+.pt-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 2px 1px;
+  border: 1px solid #d5deea;
+  border-radius: 5px;
+  background: #f7fafd;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1.05;
+}
+
+.pt-cell small {
+  font-size: 0.55rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.pt-cell strong {
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.pt-cell:disabled {
+  opacity: 0.38;
+  cursor: default;
+  background: #eef1f5;
+}
+
+.pt-cell.is-picked {
+  border-color: rgba(34, 100, 222, 0.55);
+  background: #e8f0ff;
+  box-shadow: 0 0 0 2px rgba(34, 100, 222, 0.16);
+}
+
+.pt-cell:not(:disabled):hover {
+  filter: brightness(1.03);
 }
 
 @keyframes coalesce {
@@ -1231,6 +1507,26 @@ body[data-sample="ironSulphur"][data-phase="compound"] .fes-lump {
   .reset-button {
     flex: 1;
     min-height: 42px;
+  }
+
+  .periodic-dialog {
+    width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    padding: 12px;
+  }
+
+  .periodic-head {
+    flex-direction: column;
+  }
+
+  .pt-cell {
+    min-height: 28px;
+  }
+
+  .pt-cell strong {
+    font-size: 0.58rem;
   }
 }
 

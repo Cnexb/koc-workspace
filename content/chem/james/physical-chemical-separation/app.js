@@ -9,6 +9,8 @@
       labHeading: "Choose a sample",
       sampleIron: "Iron + sulphur",
       sampleSand: "Sand + water",
+      sampleCustom: "Custom pair",
+      chooseElements: "Choose elements",
       chipKind: "Kind",
       chipBonded: "Bonded",
       chipEnergy: "Energy",
@@ -20,13 +22,28 @@
       stageSand: "Sand + water mixture",
       stageSandDecanted: "Sand settled, water poured off",
       stageSandFiltered: "Sand residue and water filtrate",
+      stageIronMolten: "Molten iron and sulphur",
+      stageIronMoltenCompound: "Molten iron(II) sulphide",
+      stageSandMolten: "Molten sand in water",
+      stageCustom: "Custom element mixture",
+      stageCustomSeparated: "Magnetic metal pulled away",
+      stageCustomMolten: "Molten custom pair",
       physicalMethods: "Physical methods",
       chemicalMethods: "Chemical / energy",
       magnet: "Magnet",
       decant: "Decant",
       filter: "Filter",
+      melt: "Molten state",
       heat: "Strong heat",
       reset: "Reset",
+      tableKicker: "Periodic table",
+      tableTitle: "Choose two elements",
+      tableHint: "Select two solids or liquids for the watch glass. Room-temperature gases cannot be placed on the plate. Iron + sulphur still forms FeS with strong heat.",
+      tableSlotA: "Element A",
+      tableSlotB: "Element B",
+      tableClear: "Clear",
+      tableApply: "Apply pair",
+      tableCancel: "Cancel",
       sourceBeaker: "Mixture",
       pouredBeaker: "Decanted liquid",
       filterLabel: "Filtration",
@@ -43,6 +60,7 @@
       demoFilterPour: "Pouring into funnel",
       demoFilterDrip: "Residue and filtrate",
       demoHeatGlow: "Energy input",
+      demoMelt: "Melting",
       demoPlaying: "Playing",
       mixture: "Mixture",
       compound: "Compound",
@@ -53,6 +71,7 @@
       separated: "Separated",
       combined: "Combined",
       decomposed: "Decomposed",
+      melted: "Melted",
       blocked: "Blocked",
       note: "Note",
       energyNone: "—",
@@ -73,6 +92,19 @@
       captionDecantSuccess: "Sand settled, then the water was poured off. Decantation is a physical separation of an insoluble solid from a liquid.",
       captionFilterSuccess: "Filter paper traps sand as residue. Clear water is the filtrate. No new substance was formed.",
       captionHeatSuccess: "Strong heating supplies energy. Iron and sulphur combine to form black, non-magnetic iron(II) sulphide.",
+      captionCustomStart: "Two elements are mixed but not bonded. Try a magnet if one is magnetic, melt them, or use iron + sulphur if you want Strong heat to make FeS.",
+      captionMagnetCustom: "The magnet attracts the magnetic metal. The other element is left behind. The components kept their own properties.",
+      captionMeltIron: "Heat raises the temperature. Sulphur melts at 115 °C, then iron at 1538 °C. Melting is a physical change — no new compound yet.",
+      captionMeltSand: "Water is already liquid (melts at 0 °C). Sand melts near 1710 °C to a glassy liquid. The substances are not chemically changed.",
+      captionMeltCustom: "Each element melts at its own melting point and becomes a liquid. This is a physical change; identities stay the same.",
+      captionMeltCompound: "Iron(II) sulphide melts, but it is still the same compound. Melting does not undo chemical bonds.",
+      captionMeltAlreadyLiquid: "These substances are already liquid at bench temperature. Raising the heat does not create a new substance.",
+      noteAlreadyMolten: "The sample is already molten. Reset or cool by choosing the sample again if you want the solids back.",
+      noteMoltenMagnetCurie: "Molten iron (and other magnetic metals) is above the Curie point, so it is no longer a magnetic solid. A magnet cannot pull it out.",
+      noteNoMagnetic: "Neither element in this pair is magnetic. Only solid iron, cobalt or nickel is attracted to a magnet.",
+      noteMoltenSandPhysical: "The sand has melted into a liquid (molten glass). Decantation and filtration are for insoluble solids in liquids, not two liquids.",
+      noteHeatCustomPair: "Strong heating in this lab demonstrates Fe + S → FeS. Your custom pair can still melt, but combination is shown with iron and sulphur.",
+      noteMeltWrongSample: "This electrolysis sample is already a liquid. Use the mixture samples to explore melting.",
       warnFeSMagnetTitle: "A magnet cannot separate this compound",
       warnFeSMagnetBody: "Iron(II) sulphide is a compound. Iron and sulphur are chemically bonded. A magnet cannot separate them — that only works on the mixture.",
       warnFeSPhysicalTitle: "Physical methods cannot undo a compound",
@@ -92,6 +124,8 @@
       labHeading: "選擇樣本",
       sampleIron: "鐵 + 硫",
       sampleSand: "沙 + 水",
+      sampleCustom: "自選元素",
+      chooseElements: "選擇元素",
       chipKind: "種類",
       chipBonded: "鍵合",
       chipEnergy: "能量",
@@ -103,13 +137,28 @@
       stageSand: "沙與水混合物",
       stageSandDecanted: "沙已沉降，水已傾出",
       stageSandFiltered: "沙為殘餘物，水為濾液",
+      stageIronMolten: "熔融的鐵與硫",
+      stageIronMoltenCompound: "熔融的硫化鐵(II)",
+      stageSandMolten: "熔融的沙與水",
+      stageCustom: "自選元素混合物",
+      stageCustomSeparated: "磁性金屬已被吸走",
+      stageCustomMolten: "熔融的自選元素",
       physicalMethods: "物理方法",
       chemicalMethods: "化學／能量",
       magnet: "磁鐵",
       decant: "傾析",
       filter: "過濾",
+      melt: "熔融態",
       heat: "強熱",
       reset: "重設",
+      tableKicker: "週期表",
+      tableTitle: "選擇兩種元素",
+      tableHint: "請選兩種固體或液體放在表面皿上。室溫氣體不能放在碟上。鐵 + 硫仍可用強熱製成 FeS。",
+      tableSlotA: "元素 A",
+      tableSlotB: "元素 B",
+      tableClear: "清除",
+      tableApply: "套用配對",
+      tableCancel: "取消",
       sourceBeaker: "混合物",
       pouredBeaker: "傾出液體",
       filterLabel: "過濾",
@@ -126,6 +175,7 @@
       demoFilterPour: "倒入漏斗",
       demoFilterDrip: "殘餘物與濾液",
       demoHeatGlow: "能量輸入",
+      demoMelt: "熔化中",
       demoPlaying: "演示中",
       mixture: "混合物",
       compound: "化合物",
@@ -136,6 +186,7 @@
       separated: "已分離",
       combined: "已化合",
       decomposed: "已分解",
+      melted: "已熔融",
       blocked: "已阻擋",
       note: "提示",
       energyNone: "—",
@@ -156,6 +207,19 @@
       captionDecantSuccess: "沙沉降後把水傾出。傾析是把不溶固體與液體分開的物理方法。",
       captionFilterSuccess: "濾紙截留沙作為殘餘物，清水是濾液。沒有新物質生成。",
       captionHeatSuccess: "強熱提供能量。鐵和硫化合成黑色、不帶磁性的硫化鐵(II)。",
+      captionCustomStart: "兩種元素只是混合，尚未鍵合。若其中一種有磁性可試磁鐵，也可加熱至熔融。若要示範化合，請選鐵 + 硫再施強熱。",
+      captionMagnetCustom: "磁鐵吸走磁性金屬，另一種元素留下。各成分仍保持各自性質。",
+      captionMeltIron: "溫度上升。硫在 115 °C 熔化，鐵在 1538 °C 熔化。熔化是物理變化，尚未生成新化合物。",
+      captionMeltSand: "水在室溫已是液體（熔點 0 °C）。沙約在 1710 °C 熔成玻璃狀液體。物質的化學身分沒有改變。",
+      captionMeltCustom: "各元素在自己的熔點變成液體。這是物理變化，元素身分不變。",
+      captionMeltCompound: "硫化鐵(II)熔化了，但仍是同一種化合物。熔化不能拆開化學鍵。",
+      captionMeltAlreadyLiquid: "這些物質在室溫已是液體。繼續加熱也不會生成新物質。",
+      noteAlreadyMolten: "樣本已經熔融。若要固體回來，請重設或再選一次樣本。",
+      noteMoltenMagnetCurie: "熔融的鐵（及其他磁性金屬）已超過居里點，不再是磁性固體，磁鐵不能把它吸出。",
+      noteNoMagnetic: "這一對元素都沒有磁性。只有固態的鐵、鈷或鎳會被磁鐵吸引。",
+      noteMoltenSandPhysical: "沙已熔成液體（熔融玻璃）。傾析和過濾適用於液體中的不溶固體，不適用於兩種液體。",
+      noteHeatCustomPair: "這個實驗用強熱示範 Fe + S → FeS。自選配對仍可熔化，但化合反應請用鐵和硫來示範。",
+      noteMeltWrongSample: "這個電解樣本已經是液體。請改用混合物樣本來觀察熔化。",
       warnFeSMagnetTitle: "磁鐵不能分離這個化合物",
       warnFeSMagnetBody: "硫化鐵(II)是化合物。鐵和硫已經化學鍵合，磁鐵不能把它們分開——那只適用於混合物。",
       warnFeSPhysicalTitle: "物理方法不能拆開化合物",
@@ -199,13 +263,19 @@
     streamHold: 1300,
     easeRest: 500,
     heat: 1450,
+    melt: 2400,
     filterGrain: 980,
     dripCycle: 700,
     dripRepeats: 7
   };
 
   const lab = window.SeparationEngine.createLab("ironSulphur");
+  const ELEMENTS = window.SeparationEngine.ELEMENTS;
+  const PERIODIC_LAYOUT = window.SeparationEngine.PERIODIC_LAYOUT;
+  const ROOM_TEMP = window.SeparationEngine.ROOM_TEMP;
   let snapshot = lab.getState();
+  const picks = [];
+  let lastCustom = null;
   const demo = {
     playing: false,
     step: "idle",
@@ -226,6 +296,17 @@
       sourceStartFill: 72,
       sourceEndFill: 10,
       receiverEndFill: 60
+    },
+    filter: {
+      receiverInsetX: 0.5,
+      receiverInsetY: 0.12,
+      rodOffsetX: 0.38,
+      rodOffsetY: 0.4,
+      tipAngle: 50,
+      flowAngle: 56,
+      sourceStartFill: 72,
+      sourceEndFill: 0,
+      receiverEndFill: 58
     },
     magnet: {
       targetInsetX: 0.2,
@@ -250,8 +331,35 @@
     receiverWater: document.querySelector(".poured-water"),
     decantRod: document.getElementById("decantRod"),
     stream: document.getElementById("lipStream"),
-    liquidLayer: document.getElementById("liquidLayer")
+    liquidLayer: document.getElementById("liquidLayer"),
+    tempReadout: document.getElementById("tempReadout"),
+    dishPools: document.getElementById("dishPools"),
+    moltenSand: document.getElementById("moltenSand"),
+    periodicDialog: document.getElementById("periodicDialog"),
+    periodicGrid: document.getElementById("periodicGrid"),
+    applyPair: document.getElementById("applyPair"),
+    particleLegend: document.getElementById("particleLegend")
   };
+
+  function isDishSample(sample) {
+    return sample === "ironSulphur" || sample === "custom";
+  }
+
+  function canPlaceOnPlate(symbol) {
+    return window.SeparationEngine.canPlaceOnPlate(symbol);
+  }
+
+  function platePair(symbols) {
+    return (symbols || []).filter(canPlaceOnPlate).slice(0, 2);
+  }
+
+  function elementName(symbol) {
+    const element = ELEMENTS[symbol];
+    if (!element) {
+      return symbol;
+    }
+    return ui.lang === "zh" ? element.nameZh : element.nameEn;
+  }
 
   function t(key) {
     return TRANSLATIONS[ui.lang][key] || TRANSLATIONS.en[key] || key;
@@ -263,6 +371,12 @@
 
   function stageTitleFor(state) {
     if (state.sample === "ironSulphur") {
+      if (state.phase === "molten" && state.kind === "compound") {
+        return t("stageIronMoltenCompound");
+      }
+      if (state.phase === "molten") {
+        return t("stageIronMolten");
+      }
       if (state.kind === "compound") {
         return t("stageIronCompound");
       }
@@ -272,6 +386,12 @@
       return t("stageIron");
     }
     if (state.sample === "sandWater") {
+      if (state.phase === "molten") {
+        return t("stageSandMolten");
+      }
+      if (demo.step === "filter-pour" || demo.step === "filter") {
+        return t("stageSandFiltered");
+      }
       if (state.phase === "decanted") {
         return t("stageSandDecanted");
       }
@@ -279,6 +399,15 @@
         return t("stageSandFiltered");
       }
       return t("stageSand");
+    }
+    if (state.sample === "custom") {
+      if (state.phase === "molten") {
+        return t("stageCustomMolten");
+      }
+      if (state.phase === "magnetSeparated") {
+        return t("stageCustomSeparated");
+      }
+      return t("stageCustom");
     }
     return t("stageIron");
   }
@@ -317,37 +446,46 @@
       : "Physical vs Chemical Separation · 物理與化學分離";
   }
 
-  function seedParticles() {
+  function seedParticles(state) {
+    const current = state || snapshot;
     const dish = DOM.ironParticles;
     const cling = DOM.magnetCling;
     if (cling) {
       cling.replaceChildren();
     }
+    if (!dish) {
+      return;
+    }
     dish.innerHTML = "";
 
-    const ironSpots = [
-      [18, 22], [38, 48], [62, 28], [74, 58], [28, 70],
-      [50, 36], [12, 54], [80, 18], [44, 78], [66, 72]
-    ];
-    const sulphurSpots = [
-      [30, 18], [54, 22], [70, 40], [22, 40], [46, 56],
-      [78, 64], [14, 76], [58, 80], [36, 32], [86, 46]
+    const spots = [
+      [
+        [18, 22], [38, 48], [62, 28], [74, 58], [28, 70],
+        [50, 36], [12, 54], [80, 18], [44, 78], [66, 72]
+      ],
+      [
+        [30, 18], [54, 22], [70, 40], [22, 40], [46, 56],
+        [78, 64], [14, 76], [58, 80], [36, 32], [86, 46]
+      ]
     ];
 
-    ironSpots.forEach(([x, y]) => {
-      const grain = document.createElement("span");
-      grain.className = "particle fe";
-      grain.style.left = x + "%";
-      grain.style.top = y + "%";
-      dish.appendChild(grain);
-    });
-
-    sulphurSpots.forEach(([x, y]) => {
-      const grain = document.createElement("span");
-      grain.className = "particle s";
-      grain.style.left = x + "%";
-      grain.style.top = y + "%";
-      dish.appendChild(grain);
+    current.components.forEach((component, index) => {
+      if (component.location !== "dish" && component.location !== "magnetPile") {
+        return;
+      }
+      const host = component.location === "magnetPile" && cling ? cling : dish;
+      (spots[index] || spots[0]).forEach(([x, y], grainIndex) => {
+        const grain = document.createElement("span");
+        grain.className = "particle" + (component.magnetic ? " fe magnetic" : " s");
+        grain.dataset.id = component.id;
+        grain.style.left = component.location === "magnetPile" ? (grainIndex % 4) * 10 + "px" : x + "%";
+        grain.style.top = component.location === "magnetPile" ? Math.floor(grainIndex / 4) * 9 + "px" : y + "%";
+        grain.style.background = component.colour;
+        if (component.location === "magnetPile") {
+          grain.classList.add("is-attached");
+        }
+        host.appendChild(grain);
+      });
     });
   }
 
@@ -387,6 +525,10 @@
     });
 
     document.querySelectorAll(".bench").forEach((bench) => {
+      if (bench.classList.contains("bench-fe")) {
+        bench.hidden = !isDishSample(state.sample);
+        return;
+      }
       bench.hidden = bench.dataset.sample !== state.sample;
     });
 
@@ -415,7 +557,82 @@
       equation.hidden = true;
     }
 
+    renderTemp(state);
+    renderMoltenPools(state);
+    renderParticleLegend(state);
     renderDemoChip();
+  }
+
+  function componentLegendName(component) {
+    if (ui.lang === "zh" && component.nameZh) {
+      return component.nameZh;
+    }
+    if (component.nameEn) {
+      return component.nameEn;
+    }
+    if (component.nameKey && TRANSLATIONS.en[component.nameKey]) {
+      return t(component.nameKey);
+    }
+    return elementName(component.formula || component.id);
+  }
+
+  function renderParticleLegend(state) {
+    const legend = DOM.particleLegend;
+    if (!legend) {
+      return;
+    }
+    if (!isDishSample(state.sample)) {
+      legend.hidden = true;
+      legend.replaceChildren();
+      return;
+    }
+    legend.hidden = false;
+    legend.replaceChildren();
+    state.components.forEach(function (component) {
+      const row = document.createElement("div");
+      row.className = "legend-row";
+      const swatch = document.createElement("span");
+      swatch.className = "legend-swatch";
+      swatch.style.background = component.colour || "#8a93a0";
+      const label = document.createElement("span");
+      const name = document.createElement("strong");
+      name.textContent = componentLegendName(component);
+      label.appendChild(name);
+      label.appendChild(document.createTextNode(" (" + (component.formula || component.id) + ")"));
+      row.appendChild(swatch);
+      row.appendChild(label);
+      legend.appendChild(row);
+    });
+  }
+
+  function renderTemp(state, liveValue) {
+    const readout = DOM.tempReadout;
+    if (!readout) {
+      return;
+    }
+    const value = typeof liveValue === "number" ? liveValue : (state.temperature || ROOM_TEMP);
+    readout.hidden = false;
+    readout.textContent = Math.round(value) + " °C";
+  }
+
+  function renderMoltenPools(state) {
+    const pools = DOM.dishPools ? Array.from(DOM.dishPools.querySelectorAll(".molten-pool")) : [];
+    pools.forEach((pool, index) => {
+      const component = state.components[index];
+      if (!component || state.phase !== "molten" || component.phase !== "liquid") {
+        pool.classList.remove("is-visible");
+        pool.style.background = "";
+        return;
+      }
+      pool.style.background = component.colour;
+      pool.classList.add("is-visible");
+    });
+
+    if (DOM.moltenSand) {
+      const sand = state.components.find((item) => item.id === "sand");
+      const show = state.sample === "sandWater" && state.phase === "molten" && sand && sand.phase === "liquid";
+      DOM.moltenSand.classList.toggle("is-visible", !!show);
+    }
   }
 
   function renderDemoChip() {
@@ -430,7 +647,8 @@
       pour: "demoPour",
       "filter-pour": "demoFilterPour",
       filter: "demoFilterDrip",
-      heat: "demoHeatGlow"
+      heat: "demoHeatGlow",
+      melt: "demoMelt"
     };
     chip.textContent = t(keyMap[demo.step] || "demoIdle");
   }
@@ -439,13 +657,17 @@
     demo.step = step;
     document.body.dataset.demo = step === "idle" ? "" : step;
     renderDemoChip();
+    const heading = document.getElementById("stageTitle");
+    if (heading) {
+      heading.textContent = stageTitleFor(snapshot);
+    }
     if (captionKey) {
       document.getElementById("liveCaption").textContent = t(captionKey);
     }
   }
 
   function setControlsLocked(locked) {
-    document.querySelectorAll("[data-action], .stage-tab").forEach((button) => {
+    document.querySelectorAll("[data-action], .stage-tab, #openTableBtn").forEach((button) => {
       button.disabled = locked;
     });
   }
@@ -539,11 +761,12 @@
   }
 
   function demoKind(type, state) {
-    if (type === "magnet" && state.sample === "ironSulphur" && state.kind === "compound") {
+    if (type === "magnet" && isDishSample(state.sample) && state.kind === "compound") {
       return "magnetFail";
     }
-    if (type === "magnet" && state.sample === "ironSulphur" && state.phase === "mixed") {
-      return "magnetPull";
+    if (type === "magnet" && isDishSample(state.sample) && state.kind === "mixture" && state.phase !== "magnetSeparated") {
+      const hasSolidMagnet = state.components.some((item) => item.magnetic && item.phase !== "liquid");
+      return hasSolidMagnet ? "magnetPull" : "magnetFail";
     }
     if (type === "decant" && state.sample === "sandWater" && state.phase === "mixed") {
       return "decant";
@@ -551,8 +774,11 @@
     if (type === "filter" && state.sample === "sandWater" && (state.phase === "mixed" || state.phase === "decanted")) {
       return "filter";
     }
-    if (type === "heat" && state.sample === "ironSulphur" && state.kind === "mixture" && state.phase === "mixed") {
+    if (type === "heat" && state.sample === "ironSulphur" && state.kind === "mixture" && (state.phase === "mixed" || state.phase === "molten")) {
       return "heat";
+    }
+    if (type === "melt" && state.phase !== "molten" && state.sample !== "acidifiedWater") {
+      return "melt";
     }
     return null;
   }
@@ -601,7 +827,7 @@
     const runId = demo.runId;
     const cling = DOM.magnetCling;
     const clingBox = cling.getBoundingClientRect();
-    const grains = Array.from(DOM.ironParticles.querySelectorAll(".particle.fe"));
+    const grains = Array.from(DOM.ironParticles.querySelectorAll(".particle.magnetic, .particle.fe"));
     const ranked = grains.map((grain, index) => {
       const from = grain.getBoundingClientRect();
       const dx = clingBox.left + (index % 4) * 10 - from.left;
@@ -669,7 +895,10 @@
       rod.style.top = "";
       rod.style.opacity = "";
     }
-    [DOM.sourceWater, DOM.receiverWater].forEach((water) => {
+    const filtrate = document.querySelector(".filtrate-water");
+    const residue = document.querySelector(".residue-pile");
+    const sandBed = document.querySelector(".source-beaker .sand-bed");
+    [DOM.sourceWater, DOM.receiverWater, filtrate].forEach((water) => {
       if (!water) {
         return;
       }
@@ -678,6 +907,13 @@
       water.style.clipPath = "";
       water.style.transform = "";
     });
+    if (sandBed) {
+      sandBed.style.height = "";
+    }
+    if (residue) {
+      residue.style.height = "";
+      residue.style.opacity = "";
+    }
     document.querySelectorAll("#sandGrains .sand-grain").forEach((grain) => {
       grain.getAnimations().forEach((animation) => animation.cancel());
       grain.style.opacity = "";
@@ -782,21 +1018,20 @@
     element.style.transform = transform;
   }
 
-  function prepareDecantGeometry() {
+  function preparePourGeometry(target, config) {
     const wrap = DOM.sandBench;
     const source = DOM.sourceBeaker;
     const sourceLip = DOM.sourceLip;
-    const receiver = DOM.receiverBeaker;
     const rod = DOM.decantRod;
     const stream = DOM.stream;
-    if (!wrap || !source || !sourceLip || !receiver || !rod || !stream) {
+    if (!wrap || !source || !sourceLip || !target || !rod || !stream || !config) {
       return null;
     }
 
     const wrapBox = wrap.getBoundingClientRect();
     const sourceBox = source.getBoundingClientRect();
     const lipBox = sourceLip.getBoundingClientRect();
-    const receiverBox = receiver.getBoundingClientRect();
+    const receiverBox = target.getBoundingClientRect();
     const transformOrigin = window.getComputedStyle(source).transformOrigin
       .split(" ")
       .map((value) => parseFloat(value));
@@ -808,14 +1043,13 @@
       x: lipBox.left + lipBox.width / 2,
       y: lipBox.top + lipBox.height / 2
     };
-    // The rod touches the inner wall rather than dropping into the centre.
     const receiverContact = {
-      x: receiverBox.left + receiverBox.width * APPARATUS.decant.receiverInsetX,
-      y: receiverBox.top + receiverBox.height * APPARATUS.decant.receiverInsetY
+      x: receiverBox.left + receiverBox.width * config.receiverInsetX,
+      y: receiverBox.top + receiverBox.height * config.receiverInsetY
     };
     const lipContact = {
-      x: receiverContact.x - sourceBox.width * APPARATUS.decant.rodOffsetX,
-      y: receiverContact.y - sourceBox.height * APPARATUS.decant.rodOffsetY
+      x: receiverContact.x - sourceBox.width * config.rodOffsetX,
+      y: receiverContact.y - sourceBox.height * config.rodOffsetY
     };
     positionGuideLine(rod, lipContact, receiverContact, wrapBox);
 
@@ -836,6 +1070,10 @@
       receiverContact: receiverContact,
       wrapBox: wrapBox
     };
+  }
+
+  function prepareDecantGeometry() {
+    return preparePourGeometry(DOM.receiverBeaker, APPARATUS.decant);
   }
 
   function clampedDepthIntegral(depth) {
@@ -911,22 +1149,23 @@
     stream.style.opacity = (strength * 0.9).toFixed(3);
   }
 
-  async function playDecantPour() {
+  async function playBeakerPour(options) {
     const source = DOM.sourceBeaker;
-    const sourceWater = DOM.sourceWater;
-    const receiverWater = DOM.receiverWater;
+    const sourceWater = options.sourceWater;
+    const receiverWater = options.receiverWater;
     const rod = DOM.decantRod;
     const stream = DOM.stream;
-    const geometry = prepareDecantGeometry();
+    const geometry = options.geometry;
     if (!source || !sourceWater || !receiverWater || !rod || !stream || !geometry) {
       return;
     }
 
-    const tipAngle = APPARATUS.decant.tipAngle;
-    const flowAngle = APPARATUS.decant.flowAngle;
-    const sourceStartFill = APPARATUS.decant.sourceStartFill;
-    const sourceEndFill = APPARATUS.decant.sourceEndFill;
-    const receiverEndFill = APPARATUS.decant.receiverEndFill;
+    const tipAngle = options.tipAngle;
+    const flowAngle = options.flowAngle;
+    const sourceStartFill = options.sourceStartFill;
+    const sourceEndFill = options.sourceEndFill;
+    const receiverEndFill = options.receiverEndFill;
+    const onFlow = options.onFlow;
     sourceWater.style.height = "100%";
     sourceWater.style.clipPath = fluidPolygon(0, sourceStartFill, source);
     receiverWater.style.height = receiverEndFill + "%";
@@ -978,6 +1217,9 @@
         angle,
         streamStrength
       );
+      if (typeof onFlow === "function") {
+        onFlow(progress, transferred);
+      }
     });
     if (!completed) {
       return;
@@ -1018,53 +1260,63 @@
     stream.style.opacity = "0";
   }
 
-  function playFilterPour() {
-    const source = document.getElementById("sourceBeaker");
-    const liquid = document.getElementById("liquidLayer");
-    const lip = document.getElementById("sourceLip");
-    const target = document.getElementById("funnelMouth");
-    const lip0 = lip ? lip.getBoundingClientRect() : { left: 0, width: 0 };
-    const tgt0 = target ? target.getBoundingClientRect() : { left: 0, width: 0 };
-    const tiltShiftX = 28;
-    const slide = Math.max(20, (tgt0.left + tgt0.width / 2) - (lip0.left + lip0.width / 2) - tiltShiftX);
-    const lift = -24;
-    const tilt = 36;
-    // Free surface stays near-level; sediment tilts with the beaker (no full-content counter-spin)
-    const liquidCounter = -28;
-
-    const slideAnim = source.animate(
-      [
-        { transform: "translate3d(0, 0, 0) rotate(0deg)" },
-        { transform: "translate3d(" + slide + "px, " + lift + "px, 0) rotate(0deg)" }
-      ],
-      { duration: MOTION.pourSlide, fill: "forwards", easing: MOTION.easeOut }
-    );
-    track(slideAnim);
-
-    return slideAnim.finished.catch(function () {}).then(function () {
-      const tiltAnim = source.animate(
-        [
-          { transform: "translate3d(" + slide + "px, " + lift + "px, 0) rotate(0deg)" },
-          { transform: "translate3d(" + slide + "px, " + lift + "px, 0) rotate(" + tilt + "deg)" }
-        ],
-        { duration: MOTION.pourTilt, fill: "forwards", easing: MOTION.easeOut }
-      );
-      track(tiltAnim);
-      if (liquid) {
-        track(liquid.animate(
-          [
-            { transform: "rotate(0deg)" },
-            { transform: "rotate(" + liquidCounter + "deg)" }
-          ],
-          { duration: MOTION.pourTilt, fill: "forwards", easing: MOTION.easeOut }
-        ));
-      }
-      return tiltAnim.finished.catch(function () {});
-    }).then(function () {
-      const lipNow = document.getElementById("sourceLip");
-      const targetNow = document.getElementById("funnelMouth");
-      return placeVerticalStream(lipNow, targetNow);
+  async function playDecantPour() {
+    await playBeakerPour({
+      geometry: prepareDecantGeometry(),
+      sourceWater: DOM.sourceWater,
+      receiverWater: DOM.receiverWater,
+      tipAngle: APPARATUS.decant.tipAngle,
+      flowAngle: APPARATUS.decant.flowAngle,
+      sourceStartFill: APPARATUS.decant.sourceStartFill,
+      sourceEndFill: APPARATUS.decant.sourceEndFill,
+      receiverEndFill: APPARATUS.decant.receiverEndFill
     });
+  }
+
+  async function playFilterPour() {
+    const funnel = document.getElementById("funnelMouth");
+    const filtrate = document.querySelector(".filtrate-water");
+    const residue = document.querySelector(".residue-pile");
+    const sandBed = document.querySelector(".source-beaker .sand-bed");
+    const geometry = preparePourGeometry(funnel, APPARATUS.filter);
+    if (!funnel || !filtrate || !geometry) {
+      return;
+    }
+
+    if (residue) {
+      residue.style.height = "0px";
+      residue.style.opacity = "0";
+    }
+    if (sandBed) {
+      sandBed.style.height = "28%";
+    }
+
+    const startFill = snapshot.phase === "decanted"
+      ? 10
+      : APPARATUS.filter.sourceStartFill;
+    const dripPromise = wait(MOTION.decantPosition + MOTION.decantTip).then(function () {
+      return playFiniteDrips();
+    });
+    await playBeakerPour({
+      geometry: geometry,
+      sourceWater: DOM.sourceWater,
+      receiverWater: filtrate,
+      tipAngle: APPARATUS.filter.tipAngle,
+      flowAngle: APPARATUS.filter.flowAngle,
+      sourceStartFill: startFill,
+      sourceEndFill: APPARATUS.filter.sourceEndFill,
+      receiverEndFill: APPARATUS.filter.receiverEndFill,
+      onFlow: function (progress, transferred) {
+        if (residue) {
+          residue.style.height = (22 * transferred).toFixed(1) + "px";
+          residue.style.opacity = transferred.toFixed(3);
+        }
+        if (sandBed) {
+          sandBed.style.height = (28 * (1 - transferred)).toFixed(2) + "%";
+        }
+      }
+    });
+    await dripPromise;
   }
 
   function settleSand() {
@@ -1207,7 +1459,7 @@
       prepareMagnetPath();
       setDemoStep("magnet-approach", "demoMagnetApproach");
       await wait(MOTION.magnetApproach);
-      setDemoStep("magnet-pull", "captionMagnetSuccess");
+      setDemoStep("magnet-pull", snapshot.sample === "custom" ? "captionMagnetCustom" : "captionMagnetSuccess");
       await flyIronToMagnet();
       setDemoStep("magnet-lift", "demoMagnetLift");
       await wait(MOTION.magnetLift);
@@ -1215,7 +1467,10 @@
     }
     if (kind === "magnetFail") {
       prepareMagnetPath();
-      setDemoStep("magnet-fail", "demoMagnetFail");
+      setDemoStep(
+        "magnet-fail",
+        snapshot.phase === "molten" ? "noteMoltenMagnetCurie" : "demoMagnetFail"
+      );
       await wait(MOTION.magnetFail);
       return;
     }
@@ -1239,20 +1494,50 @@
         markGrainsSettledVisually();
       }
       setDemoStep("filter-pour", "captionFilterStep");
-      // Let the filter station layout so funnel mouth has a real box
       await wait(90);
-      const pourPromise = playFilterPour();
-      await wait(MOTION.pourSlide + MOTION.pourTilt);
-      await transferSandToResidue();
+      await playFilterPour();
       setDemoStep("filter", "captionFilterStep");
-      await Promise.all([pourPromise, playFiniteDrips()]);
       return;
     }
     if (kind === "heat") {
       document.body.dataset.heating = "true";
-      document.querySelector(".bench-fe").classList.add("is-heating");
+      const feBench = document.querySelector(".bench-fe");
+      if (feBench) {
+        feBench.classList.add("is-heating");
+      }
       setDemoStep("heat", "demoHeatGlow");
       await wait(MOTION.heat);
+      return;
+    }
+    if (kind === "melt") {
+      document.body.dataset.heating = "true";
+      const feBench = document.querySelector(".bench-fe");
+      if (feBench && isDishSample(snapshot.sample)) {
+        feBench.classList.add("is-heating");
+      }
+      setDemoStep("melt", "demoMelt");
+      const start = ROOM_TEMP;
+      const components = snapshot.components.slice();
+      const target = Math.max.apply(null, [start].concat(components.map(function (item) {
+        return typeof item.meltingPoint === "number" ? item.meltingPoint : start;
+      })));
+      await animateFrames(MOTION.melt, function (progress) {
+        const temp = start + (target - start) * progress;
+        renderTemp(snapshot, temp);
+        components.forEach(function (component, index) {
+          if (typeof component.meltingPoint !== "number" || temp < component.meltingPoint) {
+            return;
+          }
+          const pool = document.querySelector('#dishPools .molten-pool[data-pool="' + index + '"]');
+          if (pool) {
+            pool.style.background = component.colour;
+            pool.classList.add("is-visible");
+          }
+          if (component.id === "sand" && DOM.moltenSand) {
+            DOM.moltenSand.classList.add("is-visible");
+          }
+        });
+      });
       return;
     }
   }
@@ -1282,9 +1567,11 @@
       }
       // Commit while demo heights still match final phase CSS — then ease beaker upright
       commit({ type: type });
-      if (kind === "decant") {
+      if (kind === "decant" || kind === "filter") {
         const sourceWater = document.querySelector(".source-beaker .sand-water");
-        const receiverWater = document.querySelector(".poured-water");
+        const receiverWater = document.querySelector(kind === "filter" ? ".filtrate-water" : ".poured-water");
+        const sandBed = document.querySelector(".source-beaker .sand-bed");
+        const residue = document.querySelector(".residue-pile");
         if (sourceWater) {
           sourceWater.style.height = "";
           sourceWater.style.clipPath = "";
@@ -1292,6 +1579,13 @@
         if (receiverWater) {
           receiverWater.style.height = "";
           receiverWater.style.transform = "";
+        }
+        if (kind === "filter" && sandBed) {
+          sandBed.style.height = "";
+        }
+        if (kind === "filter" && residue) {
+          residue.style.height = "";
+          residue.style.opacity = "";
         }
       }
       document.body.dataset.demo = "";
@@ -1320,10 +1614,117 @@
   function resetLab() {
     cancelDemo();
     resetSandTransforms();
-    seedParticles();
-    seedSandGrains();
     commit({ type: "reset" });
+    seedParticles(snapshot);
+    seedSandGrains();
     renderDemoChip();
+  }
+
+  function loadPreset(sample) {
+    cancelDemo();
+    resetSandTransforms();
+    commit({ type: "loadSample", sample: sample });
+    seedParticles(snapshot);
+    seedSandGrains();
+  }
+
+  function updatePickChips() {
+    ["pickedA", "pickedB"].forEach(function (id, index) {
+      const chip = document.getElementById(id);
+      if (!chip) {
+        return;
+      }
+      const strong = chip.querySelector("strong");
+      const symbol = picks[index];
+      if (!strong) {
+        return;
+      }
+      if (!symbol || !ELEMENTS[symbol]) {
+        strong.textContent = "—";
+        return;
+      }
+      const element = ELEMENTS[symbol];
+      strong.textContent = symbol + " · " + elementName(symbol) + " · " + element.mp + " °C";
+    });
+    if (DOM.applyPair) {
+      DOM.applyPair.disabled = picks.length !== 2;
+    }
+    if (DOM.periodicGrid) {
+      DOM.periodicGrid.querySelectorAll(".pt-cell").forEach(function (cell) {
+        cell.classList.toggle("is-picked", picks.indexOf(cell.dataset.symbol) !== -1);
+      });
+    }
+  }
+
+  function togglePick(symbol) {
+    if (!canPlaceOnPlate(symbol)) {
+      return;
+    }
+    const index = picks.indexOf(symbol);
+    if (index !== -1) {
+      picks.splice(index, 1);
+    } else if (picks.length < 2) {
+      picks.push(symbol);
+    } else {
+      picks[1] = symbol;
+    }
+    updatePickChips();
+  }
+
+  function buildPeriodicTable() {
+    const grid = DOM.periodicGrid;
+    if (!grid) {
+      return;
+    }
+    grid.innerHTML = "";
+    PERIODIC_LAYOUT.forEach(function (cell) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pt-cell";
+      button.style.gridColumn = String(cell.group);
+      button.style.gridRow = String(cell.period);
+      button.dataset.symbol = cell.symbol;
+      const data = ELEMENTS[cell.symbol];
+      const placeable = !!(data && canPlaceOnPlate(cell.symbol));
+      button.disabled = !placeable;
+      button.innerHTML = "<small>" + cell.z + "</small><strong>" + cell.symbol + "</strong>";
+      if (placeable) {
+        button.title = data.nameEn + " / " + data.nameZh + " · " + data.mp + " °C";
+        button.addEventListener("click", function () {
+          togglePick(cell.symbol);
+        });
+      } else if (data && data.roomState === "gas") {
+        button.title = data.nameEn + " / " + data.nameZh + " · gas (not for the watch glass)";
+      }
+      grid.appendChild(button);
+    });
+  }
+
+  function openPeriodicDialog() {
+    const leftover = platePair(picks.length ? picks : (snapshot.customElements || lastCustom));
+    picks.splice(0, picks.length);
+    leftover.forEach(function (symbol) {
+      picks.push(symbol);
+    });
+    updatePickChips();
+    applyI18n();
+    if (DOM.periodicDialog && typeof DOM.periodicDialog.showModal === "function") {
+      DOM.periodicDialog.showModal();
+    }
+  }
+
+  function applyCustomPair() {
+    const pair = platePair(picks);
+    if (pair.length !== 2) {
+      return;
+    }
+    cancelDemo();
+    resetSandTransforms();
+    lastCustom = pair;
+    picks.splice(0, picks.length, pair[0], pair[1]);
+    commit({ type: "loadSample", sample: "custom", elements: lastCustom });
+    seedParticles(snapshot);
+    seedSandGrains();
   }
 
   function switchLanguage(lang) {
@@ -1334,6 +1735,7 @@
     ui.lang = lang;
     applyI18n();
     render(snapshot);
+    updatePickChips();
   }
 
   function applyPendingLanguage() {
@@ -1362,8 +1764,9 @@
     }, 140);
   }
 
-  seedParticles();
+  seedParticles(snapshot);
   seedSandGrains();
+  buildPeriodicTable();
   applyI18n();
   render(snapshot);
   prepareMagnetPath();
@@ -1373,11 +1776,22 @@
       if (demo.playing) {
         return;
       }
-      cancelDemo();
-      resetSandTransforms();
-      seedParticles();
-      seedSandGrains();
-      commit({ type: "loadSample", sample: button.dataset.sample });
+      if (button.dataset.sample === "custom") {
+        const saved = platePair(lastCustom);
+        if (saved.length === 2) {
+          cancelDemo();
+          resetSandTransforms();
+          lastCustom = saved;
+          commit({ type: "loadSample", sample: "custom", elements: lastCustom });
+          seedParticles(snapshot);
+          seedSandGrains();
+          return;
+        }
+        lastCustom = null;
+        openPeriodicDialog();
+        return;
+      }
+      loadPreset(button.dataset.sample);
     });
   });
 
@@ -1388,6 +1802,32 @@
   });
 
   document.getElementById("resetButton").addEventListener("click", resetLab);
+
+  const openTableBtn = document.getElementById("openTableBtn");
+  if (openTableBtn) {
+    openTableBtn.addEventListener("click", function () {
+      if (demo.playing) {
+        return;
+      }
+      openPeriodicDialog();
+    });
+  }
+
+  const clearPicks = document.getElementById("clearPicks");
+  if (clearPicks) {
+    clearPicks.addEventListener("click", function () {
+      picks.splice(0, picks.length);
+      updatePickChips();
+    });
+  }
+
+  if (DOM.periodicDialog) {
+    DOM.periodicDialog.addEventListener("close", function () {
+      if (DOM.periodicDialog.returnValue === "apply") {
+        applyCustomPair();
+      }
+    });
+  }
 
   document.querySelectorAll("[data-lang]").forEach((button) => {
     button.addEventListener("click", () => switchLanguage(button.dataset.lang));

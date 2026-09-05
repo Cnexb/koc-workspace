@@ -64,7 +64,7 @@ KOC.works('chem', 'james', [
     submitted: '2026-09-05',
     tags: ['Interactive', 'S3', 'Separation'],
     src: 'content/chem/james/physical-chemical-separation/index.html',
-    notes: 'Interactive lab: separate mixtures physically and change compounds only with energy input. Iron + sulphur, sand + water, and more.'
+    notes: 'Interactive lab: separate mixtures physically and change compounds only with energy input. Iron + sulphur, sand + water, molten state, and a periodic table for custom element pairs.'
   },
   {
     id: 'liquid-air-fractional-distillation',

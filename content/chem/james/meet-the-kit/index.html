@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meet the Kit — HKDSE Topic 1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="kicker">HKDSE Chemistry · Topic 01 · S3 lab</p>
+        <h1>Meet the Kit</h1>
+        <p>See the photo and the 2D diagram first. Reveal the name when you are ready. Press ← → and Esc.</p>
+      </div>
+      <div class="top-side">
+        <div class="top-actions">
+          <button type="button" id="lang-toggle" class="lang-toggle" aria-pressed="false">中</button>
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+        </div>
+        <nav class="nav" id="nav"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="learn"></section>
+    <section class="view" id="check"></section>
+  </main>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
